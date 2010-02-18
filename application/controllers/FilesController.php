@@ -19,11 +19,11 @@ class FilesController extends Zend_Controller_Action
         $tags   = explode(',', $this->_request->getParam('tags'));
 
         $fileData   = array(
-            'originalFilename'  => $_FILES['file']['name'],
+            'filename'  => $_FILES['file']['name'],
             'mimetype'          => $_FILES['file']['type'],
-            'filesize'          => $_FILES['file']['size'],
+            'size'          => $_FILES['file']['size'],
             'tmp_name'          => $_FILES['file']['tmp_name'],
-            'author'            => Zend_Auth::getInstance()->getIdentity()->id,
+            'originalAuthor'            => Zend_Auth::getInstance()->getIdentity()->id,
             'title'             => $this->_request->getParam('title'),
         );
 
@@ -43,7 +43,7 @@ class FilesController extends Zend_Controller_Action
         $files->addComment(array(
             'comment'   => $newComment,
             'fileId'    => $file->id,
-            'version'   => $file->version,
+            'version'   => $file->revision,
             'author'    => Zend_Auth::getInstance()->getIdentity()->id,
         ));
 
@@ -58,16 +58,16 @@ class FilesController extends Zend_Controller_Action
         $files  = new Application_Model_Files();
         $file   = $files->find($this->_request->getParam('file'));
 
-        $path   = realpath(APPLICATION_PATH.'/../data/'.$file->directory).'/'.$file->reference;
+        $path   = realpath(APPLICATION_PATH.'/../data/'.$file->directory).'/'.$file->fsFilename;
 
         header('Pragma: public');
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header('Cache-Control: private', false);
 		header('Content-Type: ' . $file->mimetype);
-		header('Content-Disposition: attachment; filename="' . $file->originalFilename . '";');
+		header('Content-Disposition: attachment; filename="' . $file->filename . '";');
 		header('Content-Transfer-Encoding: binary');
-		header('Content-Length: ' . $file->filesize);
+		header('Content-Length: ' . $file->size);
 		readfile($path);
         die();
     }

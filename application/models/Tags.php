@@ -40,7 +40,8 @@ class Application_Model_Tags
     public function fetchFiles($tagId)
     {
         $select = $this->getXrefTable()->select()->from(array('x' => 'files_tags_xref'))
-                                       ->join(array('f' => 'files'), 'f.id = x.fileId', array('title', 'mimetype', 'dateUploaded', 'version', 'reference'))
+                                       ->join(array('f' => 'files'), 'f.id = x.fileId', array('title', 'revision'))
+                                       ->join(array('d' => 'files_detail'), 'f.detailId = d.id', array('mimetype', 'dateUploaded', 'fsFilename'))
                                        ->where('x.tagId = ?', $tagId)
                                        ->setIntegrityCheck(false);
 

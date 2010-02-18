@@ -7,20 +7,30 @@ CREATE TABLE tags (
 CREATE INDEX "tagId" ON "tags" ("id");
 
 -- Files Database
--- Holds all the metadata for files, but not tag relationships
+-- Header information for files
 CREATE TABLE files (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    originalFilename VARCHAR(255) NOT NULL,
+    filename VARCHAR(255) NOT NULL,
     directory VARCHAR(255) NOT NULL,
-    reference VARCHAR(255) NOT NULL,
-    mimetype VARCHAR(50) NOT NULL,
-    filesize INTEGER NOT NULL,
-    dateUploaded DATETIME NOT NULL,
-    author INTEGER NOT NULL,
-    version INTEGER DEFAULT 1,
-    title VARCHAR(255) NOT NULL
+    originalAuthor INTEGER NOT NULL,
+    revision INTEGER DEFAULT 1,
+    title VARCHAR(255) NOT NULL,
+    detailId INTEGER DEFAULT 0
 );
 CREATE INDEX "fileId" ON "files" ("id");
+
+-- File Detail Database
+-- Holds all the metadata for a file revision
+CREATE TABLE files_detail (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    fileId INTEGER NOT NULL,
+    fsFilename VARCHAR(255) NOT NULL,
+    mimetype VARCHAR(255) NOT NULL,
+    size INTEGER NOT NULL,
+    dateUploaded DATETIME NOT NULL,
+    author INTEGER NOT NULL
+);
+CREATE INDEX "files_detailId" ON "files_detail" ("id");
 
 -- File to Tags Cross Reference
 -- Holds the relationships between files and their tags

@@ -14,8 +14,9 @@ class Application_Model_Comments
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)
     {
         $select = $this->getDbTable()->select()->from(array('c' => 'comments'))
-                                               ->join(array('f' => 'files'), 'c.fileId = f.id', array('title', 'reference'))
-                                                ->setIntegrityCheck(false);
+                                               ->join(array('f' => 'files'), 'c.fileId = f.id', array('title'))
+                                               ->join(array('d' => 'files_detail'), 'f.detailId = d.id', array('fsFilename'))
+                                               ->setIntegrityCheck(false);
 
         if($order != null) {
             $select->order($order);

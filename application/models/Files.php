@@ -3,33 +3,39 @@
 class Application_Model_Files
 {
     protected $_dbTable;
+    protected $_detailTable;
 
     public function add($fileData, array $tags)
     {
-        $tmpName    = $fileData['tmp_name'];
-        unset($fileData['tmp_name']);
+        if( is_uploaded_file($fileData['tmp_name']) ) {
+            // Gather the Header Data
+            $hData['filename']          = $fileData['filename'];
+            $hData['directory']         = 'documents';
+            $hData['originalAuthor']    = $fileData['originalAuthor'];
+            $hData['title']             = $fileData['title'];
+            $hData['revision']          = 1;
+            
+            // Begin gathering the Detail data
+            $dData['fsFilename']        = md5($hData['filename'].$hData['title'].time());
+            $dData['mimetype']          = $fileData['mimetype'];
+            $dData['size']              = $fileData['size'];
+            $dData['dateUploaded']      = date('Y-m-d h:i:s');
+            $dData['author']            = $hData['originalAuthor'];
 
-        if( is_uploaded_file($tmpName) ) {
-            $extraData  = array(
-                'directory'     => 'documents',
-                'reference'     => md5($fileData['originalFilename']),
-                'dateUploaded'  => date('Y-m-d h:i:s'),
-                'version'       => 1,
-            );
-
-            $fileData   = array_merge($fileData, $extraData);
-       
             try {
-                $id = $this->getDbTable()->insert($fileData);
-                $newName    = realpath(APPLICATION_PATH.'/../data/'.$fileData['directory']).'/'.$fileData['reference'];
-                if(move_uploaded_file($tmpName, $newName)) {
-                    $tagsModel   = new Application_Model_Tags();
-                    $tagsModel->associate($tags, $id);
+                $dData['fileId']    = $this->getDbTable()->insert($hData);
+                $detailId           = $this->getDetailTable()->insert($dData);
+                $this->getDbTable()->update(array('detailId' => $detailId), 'id = '.$dData['fileId']);
 
-                    return $id;
+                $newName    = realpath(APPLICATION_PATH.'/../data/'.$hData['directory']).'/'.$dData['fsFilename'];
+                if(move_uploaded_file($fileData['tmp_name'], $newName)) {
+                    $tagsModel   = new Application_Model_Tags();
+                    $tagsModel->associate($tags, $dData['fileId']);
+
+                    return $dData['fileId'];
                 } else {
-                    $file = $this->getDbTable()->find($id)->current();
-                    $file->delete();
+                    $this->getDbTable()->find($dData['fileId'])->current()->delete();
+                    $this->getDetailTable()->find($detailId)->current()->delete();
 
                     throw new Exception('Could not move file to storage. Removed from DB');
                 }
@@ -37,7 +43,7 @@ class Application_Model_Files
                 throw new Exception('Error occured while adding the file: '.$e->getMessage());
             }
         } else {
-            throw new Exception('File was not uploaded!');
+            throw new Exception('File was not uploaded');
         }
     }
 
@@ -54,15 +60,16 @@ class Application_Model_Files
 
     public function find($fileId)
     {
+        $select = $this->getDbTable()->select()->from(array('h' => 'files'))
+                                               ->join(array('d' => 'files_detail'), 'h.id = d.fileId', array('fsFilename', 'mimetype', 'size', 'dateUploaded', 'author'))
+                                               ->setIntegrityCheck(false);
         if( is_numeric($fileId) ) {
-            $result = $this->getDbTable()->find($fileId);
-            $file = $result->current();
+            $select->where('h.id = ?', $fileId);
         } else {
-            $select = $this->getDbTable()->select()->where('reference LIKE ?', $fileId);
-            $file = $this->getDbTable()->fetchRow($select);
+            $select->where('d.fsFilename LIKE ?', $fileId);
         }
 
-        return $file;
+        return $this->getDbTable()->fetchRow($select);
     }
 
     public function getDbTable()
@@ -72,6 +79,15 @@ class Application_Model_Files
         }
 
         return $this->_dbTable;
+    }
+
+    public function getDetailTable()
+    {
+        if($this->_detailTable === null) {
+            $this->setDetailTable('Application_Model_DbTable_FilesDetail');
+        }
+
+        return $this->_detailTable;
     }
 
     public function search($query)
@@ -90,6 +106,17 @@ class Application_Model_Files
             $this->_dbTable = $table;
         } else {
             throw new Exception('Not a valid table gateway for Filess Model');
+        }
+    }
+
+    public function setDetailTable($table)
+    {
+        if(is_string($table)) {
+            $this->_detailTable = new $table();
+        } elseif($table instanceof Zend_Db_Table_Abstract) {
+            $this->_detailTable = $table;
+        } else {
+            throw new Exception('Not a valid table gateway for Files Detail Model');
         }
     }
 }

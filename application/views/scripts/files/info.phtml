@@ -5,11 +5,11 @@
 	<tbody>
 		<tr>
 			<th width="15%">Title:</th>
-			<td><?php echo $this->file->title; ?> (<a href="<?php echo $this->baseUrl(); ?>/files/download/file/<?php echo $this->file->reference ?>" target="_new">View</a>) </td>
+			<td><?php echo $this->file->title; ?> (<a href="<?php echo $this->baseUrl(); ?>/files/download/file/<?php echo $this->file->id ?>" target="_new">View</a>) </td>
 		</tr>
 		<tr>
 			<th>Filename:</th>
-			<td><?php echo $this->file->originalFilename; ?></td>
+			<td><?php echo $this->file->filename; ?></td>
 		</tr>
         <tr>
             <th>Tags:</th>
@@ -21,11 +21,11 @@
 		</tr>
 		<tr>
 			<th>File Size:</th>
-			<td><?php echo $this->Filesize($this->file->filesize); ?></td>
+			<td><?php echo $this->Filesize($this->file->size); ?></td>
 		</tr>
 		<tr>
 			<th>Current Revision:</th>
-			<td><?php echo $this->file->version; ?></td>
+			<td><?php echo $this->file->revision; ?></td>
 		</tr>
 		<tr>
 			<th>Current Author:</th>
@@ -50,7 +50,7 @@
 	<tfoot>
 		<tr>
 			<td colspan="4" align="right">
-                <form method="post" action="<?php echo $this->baseUrl(); ?>/files/addcomment/file/<?php echo $this->file->reference; ?>">
+                <form method="post" action="<?php echo $this->baseUrl(); ?>/files/addcomment/file/<?php echo $this->file->id; ?>">
                     <b>Add New Comment:</b> <input style="width: 500px" type="text" name="newComment" id="newComment"> <button id="addCommentButton">Add</button>
                 </form>
             </td>
