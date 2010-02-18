@@ -55,6 +55,8 @@ CREATE TABLE users (
     primaryGroup INTEGER NOT NULL
 );
 CREATE INDEX "usersId" ON "users" ("id");
+CREATE UNIQUE INDEX "usersUniqueUsername" ON "users" ("username");
+CREATE UNIQUE INDEX "usersUniqueEmail" ON "users" ("email");
 
 -- Groups Database
 -- Holds all the group informatin

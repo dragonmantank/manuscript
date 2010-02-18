@@ -4,6 +4,15 @@ class Application_Model_Users
 {
     protected $_dbTable;
 
+    public function add($data)
+    {
+        $data['password']       = md5($data['password']);
+        $data['primaryGroup']   = (int)$data['primaryGroup'];
+        $data['username']       = strtolower($data['username']);
+
+        return $this->getDbTable()->insert($data);
+    }
+
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)
     {
         return $this->getDbTable()->fetchAll($where, $order, $count, $offset);
