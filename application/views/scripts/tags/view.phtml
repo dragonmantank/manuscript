@@ -1,0 +1,13 @@
+<h1><?php echo $this->tagName; ?></h1>
+
+<table class="fileDisplay" width="100%" align="center">
+	<tr>
+		<th>Title</th>
+		<th>Type</th>
+		<th>Date Added</th>
+		<th>Version</th>
+		<th>Actions</th>
+	</tr>
+	<?php echo $this->partialLoop('tags/_partials/filerow.phtml', $this->files); ?>
+</table>
+

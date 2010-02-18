@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+
+<link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/BrightSide.css" type="text/css" />
+
+<title>Manuscript :: {$pageTitle}</title>
+
+</head>
+
+<body>
+<!-- wrap starts here -->
+<div id="wrap">
+
+	<div id="header">
+
+		<h1 id="logo">Manuscript</h1>
+
+		<form method="post" class="searchform" action="<?php echo $this->baseUrl(); ?>/search">
+			<p><input type="text" name="search_query" class="textbox" />
+  			<input type="submit" name="search" class="button" value="Search" /></p>
+		</form>
+
+		<!-- Menu Tabs -->
+		<ul>
+			<li><a href="<?php echo $this->baseUrl(); ?>/"><span>Home</span></a></li>
+			<li><a href="<?php echo $this->baseUrl(); ?>/files"><span>Files</span></a></li>
+			<li><a href="<?php echo $this->baseUrl(); ?>/admin"><span>Admin</span></a></li>
+			<li><a href="<?php echo $this->baseUrl(); ?>/auth/index/logout"><span>Log Out</span></a></li>
+		</ul>
+
+	</div>
+
+	<!-- content-wrap starts here -->
+	<div id="content-wrap">
+		<div id="sidebar" >
+
+			<h1>Tags</h1>
+			<ul class="sidemenu">
+				<?php echo $this->partialLoop('_partials/sidebar-tags.phtml', $this->getTags()); ?>
+			</ul>
+
+			<h1>File Types</h1>
+			<ul class="sidemenu">
+				<?php echo 'Ext View Helper'; ?>
+			</ul>
+		</div>
+
+		<div id="main">
+			<?php echo $this->layout()->content; ?>
+		</div>
+	<!-- content-wrap ends here -->
+	</div>
+
+<!-- footer starts here -->
+<div id="footer">
+</div>
+<!-- footer ends here -->
+
+<!-- wrap ends here -->
+</div>
+
+</body>
+</html>

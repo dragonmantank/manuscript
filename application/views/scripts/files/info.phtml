@@ -1,0 +1,95 @@
+<h1><?php echo $this->file->title; ?></h1>
+
+<h2>File Data</h2>
+<table class="stripe fileDisplay" width="100%">
+	<tbody>
+		<tr>
+			<th width="15%">Title:</th>
+			<td><?php echo $this->file->title; ?> (<a href="<?php echo $this->baseUrl(); ?>/files/download/file/<?php echo $this->file->reference ?>" target="_new">View</a>) </td>
+		</tr>
+		<tr>
+			<th>Filename:</th>
+			<td><?php echo $this->file->originalFilename; ?></td>
+		</tr>
+        <tr>
+            <th>Tags:</th>
+            <td><?php echo $this->partialLoop('files/_partials/tags.phtml', $this->getFileTags($this->file->id)); ?></td>
+        </tr>
+		<tr>
+			<th>File Type:</th>
+			<td><?php echo $this->MimeType($this->file->mimetype); ?></td>
+		</tr>
+		<tr>
+			<th>File Size:</th>
+			<td><?php echo $this->Filesize($this->file->filesize); ?></td>
+		</tr>
+		<tr>
+			<th>Current Revision:</th>
+			<td><?php echo $this->file->version; ?></td>
+		</tr>
+		<tr>
+			<th>Current Author:</th>
+			<td><a href="mailto:<?php echo $this->getUserInfo($this->file->author, 'email'); ?>"><?php echo $this->getUserInfo($this->file->author, 'name'); ?></a></td>
+		</tr>
+	</tbody>
+</table>
+
+<h2>Comments</h2>
+<table class="stripe fileDisplay" width="100%">
+	<thead>
+		<tr>
+			<th>Author</th>
+			<th>Comment</th>
+			<th>Date Added</th>
+			<th>Revision</th>
+		</tr>
+	</thead>
+	<tbody>
+        <?php echo $this->partialLoop('files/_partials/comments.phtml', $this->getFileComments($this->file->id)); ?>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4" align="right">
+                <form method="post" action="<?php echo $this->baseUrl(); ?>/files/addcomment/file/<?php echo $this->file->reference; ?>">
+                    <b>Add New Comment:</b> <input style="width: 500px" type="text" name="newComment" id="newComment"> <button id="addCommentButton">Add</button>
+                </form>
+            </td>
+		</tr>
+	</tfoot>
+</table>
+
+<h2>Revisions</h2>
+<table class="stripe fileDisplay" width="100%">
+	<thead>
+		<tr>
+			<th>Revision</th>
+			<th>Date Added</th>
+			<th>Uploaded By</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+        <?php if(count($this->revisions)): ?>
+    		<?php foreach($this->revisions as $rev): ?>
+    			<tr>
+    				<td><?php echo $currentRev; ?></td>
+    				<td align="right"><?php echo date('m/d/Y', strtotime($rev->dateAdded)); ?></td>
+    				<td><a href="mailto:<?php echo $rev->email;?>"><?php echo $rev->name; ?></a></td>
+    				<td align="center">
+    					<a href="<?php echo $this->baseUrl(); ?>/files/view/file/<?php echo $rev->detailId ?>/type/browser" target="_new">View</a> :
+    					<a href="<?php echo $this->baseUrl(); ?>/files/view/file/<?php echo $rev->detailId ?>/type/download" target="_new">Download</a>
+    				</td>
+    			</tr>
+    		<?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="4" align="center"><b>There are no revisions</b></td>
+            </tr>
+        <?php endif; ?>
+	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="4" align="right"><button id="addRevButton">Add New Version</button></td>
+		</tr>
+	</tfoot>
+</table>

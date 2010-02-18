@@ -1,0 +1,76 @@
+<div class="homeSection">
+	<h2>New Files</h2>
+	<div class="body">
+		<table width=100% cellspacing=0 class="fileDisplay">
+			<tr>
+				<th style="border-bottom: 1px solid black">Document</th>
+				<th style="border-bottom: 1px solid black">Options</th>
+			</tr>
+			<?php echo $this->partialLoop('index/_partials/newfiles.phtml', $this->newFiles()); ?>
+		</table>
+	</div>
+</div>
+
+<div class="homeSection">
+	<h2>System Info</h2>
+	<div class="body">
+		<table class="fileDisplay" width="100%">
+            <tr>
+                <th width="100px"><b>Total Space:</b></th>
+                <td><?php echo $this->filesize($this->systemInfo('totalSpace')); ?></td>
+            </tr>
+            <tr>
+                <th><b>Used Space:</b></th>
+                <td><?php echo $this->filesize($this->systemInfo('usedSpace')); ?></td>
+            </tr>
+            <tr>
+                <th><b>Space Available:</b></th>
+                <td><?php echo $this->filesize($this->systemInfo('availableSpace')); ?></td>
+            </tr>
+            <tr>
+                <th><b>Number of Files:</b></th>
+                <td><?php echo $this->systemInfo('numFiles'); ?></td>
+            </tr>
+        </table>
+	</div>
+</div>
+
+<div style="clear: both"></div>
+
+<div class="homeSection">
+	<h2>New Comments</h2>
+	<div class="body">
+		<table width=100% cellspacing=0 class="fileDisplay">
+			<tr>
+				<th style="border-bottom: 1px solid black">Document</th>
+				<th style="border-bottom: 1px solid black">Author</th>
+			</tr>
+            <?php echo $this->partialLoop('index/_partials/newcomments.phtml', $this->newComments()); ?>
+		</table>
+	</div>
+</div>
+
+<div class="homeSection">
+	<h2>Add File</h2>
+	<div class="body">
+		<form method="post" action="<?php echo $this->baseUrl(); ?>/files/add" enctype="multipart/form-data">
+			<table width=100% class="fileDisplay">
+				<tr>
+					<th><label>Title:</label></th>
+					<td><input type="text" name="title"></td>
+				</tr>
+				<tr>
+					<th><label>Tags:</label></th>
+					<td><input type="text" name="tags"></td>
+				</tr>
+				<tr>
+					<th><label>File:</label></th>
+					<td><input type="file" name="file"></td>
+				</tr>
+				<tr>
+					<td colspan=2 align=right><input type="submit" name="addFile" value="Add File"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>

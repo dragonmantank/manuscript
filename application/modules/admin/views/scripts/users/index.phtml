@@ -1,0 +1,31 @@
+<h1>Users</h1>
+
+<table class="stripe fileDisplay">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Active</th>
+            <th>Primary Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->users as $user): ?>
+            <tr>
+                <td><?php echo $user->id; ?></td>
+                <td><?php echo $user->username; ?></td>
+                <td><?php echo $user->name; ?></td>
+                <td><?php echo $user->email; ?></td>
+                <td><?php echo $user->active; ?></td>
+                <td><?php echo $user->primaryGroup; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6" align="right"><input type="submit" value="Add New User"></td>
+        </tr>
+    </tfoot>
+</table>

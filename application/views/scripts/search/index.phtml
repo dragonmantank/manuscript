@@ -1,0 +1,19 @@
+<h1>Search Results</h1>
+
+<table class="fileDisplay" width="100%" align="center">
+	<tr>
+		<th>Title</th>
+		<th>Type</th>
+		<th>Date Added</th>
+		<th>Version</th>
+		<th>Actions</th>
+	</tr>
+    <?php if(count($this->results)): ?>
+        <?php echo $this->partialLoop('search/_partials/filerow.phtml', $this->results); ?>
+    <?php else: ?>
+        <tr>
+            <td colspan="5" align="center">There were no results found. Please try another query.</td>
+        </tr>
+    <?php endif; ?>
+</table>
+
