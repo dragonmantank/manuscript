@@ -99,6 +99,18 @@ class Application_Model_Tags
         return $this->_xrefTable;
     }
 
+    public function remove($tagId)
+    {
+        $this->getDbTable()->delete('id = '.$tagId);
+        $this->getXrefTable()->delete('tagId = '.$tagId);
+    }
+
+    public function rename($tagId, $name)
+    {
+        $where  = $this->getDbTable()->getAdapter()->quoteInto('id = ?', $tagId);
+        $this->getDbTable()->update(array('name' => $name), $where);
+    }
+
     public function setXrefTable($table)
     {
         if(is_string($table)) {

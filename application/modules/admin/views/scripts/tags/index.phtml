@@ -1,0 +1,27 @@
+<h1>Tag Administration</h1>
+
+<?php if(!empty($this->message)): ?>
+    <div class="info">
+        <ul>
+            <?php foreach($this->message as $message): echo '<li>'.$message.'</li>'; endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
+<h2>Add New Tag</h2>
+<?php
+    $this->addForm->setAttrib('action', $this->baseUrl().'/admin/tags/add');
+    echo $this->addForm;
+?>
+
+<h2>Delete Tag</h2>
+<?php
+    $this->deleteForm->setAttrib('action', $this->baseUrl().'/admin/tags/delete');
+    echo $this->deleteForm;
+?>
+
+<h2>Rename Tag</h2>
+<?php
+    $this->renameForm->setAttrib('action', $this->baseUrl().'/admin/tags/rename');
+    echo $this->renameForm;
+?>
