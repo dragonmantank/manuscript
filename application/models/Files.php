@@ -92,8 +92,11 @@ class Application_Model_Files
 
     public function search($query)
     {
-        $select = $this->getDbTable()->select()->where('originalFilename LIKE ?', '%'.$query.'%')
-                                               ->orWhere('title LIKE ?', '%'.$query.'%');
+        $select = $this->getDbTable()->select()->from(array('h' => 'files'))
+                                               ->join(array('d' => 'files_detail'), 'h.id = d.fileId', array('fsFilename', 'mimetype', 'size', 'dateUploaded', 'author'))
+                                               ->where('filename LIKE ?', '%'.$query.'%')
+                                               ->orWhere('title LIKE ?', '%'.$query.'%')
+                                               ->setIntegrityCheck(false);
 
         return $this->getDbTable()->fetchAll($select);
     }
