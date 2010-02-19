@@ -15,20 +15,29 @@
 </head>
 <body>
 <div id="doc3" class="yui-t1">
-    <div id="hd">
+<div id="hd">
+        <div id="hd-links">
+            <a href="<?php echo $this->baseUrl(); ?>/admin"><span>Admin</span></a> |
+            <a href="<?php echo $this->baseUrl(); ?>/auth/index/logout"><span>Log Out</span></a>
+        </div>
+
         <h1>Manuscript Administration</h1>
+    </div>
+    <div id="main-nav">
+        <div id="main-nav-links">
+            <ul>
+                <li><a href="<?php echo $this->baseUrl(); ?>/"><span>Home</span></a></li>
+                <li><a href="<?php echo $this->baseUrl(); ?>/files"><span>Files</span></a></li>
+                <li></li>
+            </ul>
+        </div>
 
-        <form method="post" class="searchform" action="<?php echo $this->baseUrl(); ?>/search">
-            <p><input type="text" name="search_query" class="textbox" />
-            <input type="submit" name="search" class="button" value="Search" /></p>
-        </form>
-
-		<ul>
-			<li><a href="<?php echo $this->baseUrl(); ?>/"><span>Home</span></a></li>
-			<li><a href="<?php echo $this->baseUrl(); ?>/files"><span>Files</span></a></li>
-			<li><a href="<?php echo $this->baseUrl(); ?>/admin"><span>Admin</span></a></li>
-			<li><a href="<?php echo $this->baseUrl(); ?>/auth/index/logout"><span>Log Out</span></a></li>
-		</ul>
+        <div id="main-nav-search">
+            <form method="post" class="searchform" action="<?php echo $this->baseUrl(); ?>/search">
+                <p><input type="text" name="search_query" class="textbox" />
+                <input type="submit" name="search" class="button" value="Search" /></p>
+            </form>
+        </div>
     </div>
     <div id="bd">
         <div id="yui-main">

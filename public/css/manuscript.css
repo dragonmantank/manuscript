@@ -1,3 +1,62 @@
+html, body {
+    background-color:   #3F4C6B;
+    color:              #B6B6B8;
+    margin:             0px;
+}
+
+#main-nav a, #hd-links a {
+    color:              white;
+    font-weight:        bold;
+    text-decoration:    none;
+}
+
+#main-nav a:hover, #hd-links a:hover {
+    text-decoration: underline;
+}
+
+#main-nav-links {
+    float:  left;
+}
+
+#hd h1 {
+    margin:     0px;
+    padding:    10px 0px 10px 0px;
+}
+
+#hd-links {
+    float:  right;
+    font-size:  8pt;
+}
+
+#main-nav {
+    background-color:   #6C83B8;
+    height:             35px;
+}
+
+#main-nav ul {
+    margin: 0px;
+    height: 25px;
+}
+
+#main-nav ul li {
+    display:        inline;
+    padding-left:   10px;
+    line-height:    35px;
+}
+
+#main-nav-search {
+    float:          right;
+    height:         35px;
+    line-height:    35px;
+    padding-right:  5px;
+}
+
+#bd {
+    background-color:   #FFFFFF;
+    color:              #000000;
+    padding:            5px;
+}
+
 .info, .success, .warning, .error, .validation {
     border: 1px solid;
     margin: 10px 0px;
