@@ -66,6 +66,37 @@ class Application_Model_Files
         return $hData;
     }
 
+    public function create($fileData, $tags)
+    {
+        // Gather the Header Data
+        $hData  = $this->_buildHeaderData($fileData);
+
+        // Begin gathering the Detail data
+        $dData  = $this->_buildDetailData($fileData);
+
+        try {
+            $dData['fileId']    = $this->_writeHeaderData($hData);
+            $detailId           = $this->_writeDetailData($dData);
+
+            $newName    = realpath(APPLICATION_PATH.'/../data/'.$hData['directory']).'/'.$dData['fsFilename'];
+            if( file_put_contents($newName, $fileData['body'])) {
+                $this->_updateHeaderData(array('detailId' => $detailId), $dData['fileId']);
+                $this->_updateDetailData(array('size' => filesize($newName)), $detailId);
+
+                $tagsModel   = new Application_Model_Tags();
+                $tagsModel->associate($tags, $dData['fileId']);
+
+                return $dData['fileId'];
+            } else {
+                $this->remove($dData['fileId']);
+
+                throw new Exception('Could not move file to storage. Removed from DB');
+            }
+        } catch (Exception $e) {
+            throw new Exception('Error occured while adding the file: '.$e->getMessage());
+        }
+    }
+
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)
     {
         return $this->getDbTable()->fetchAll($where, $order, $count, $offset);
@@ -105,7 +136,7 @@ class Application_Model_Files
 
     public function remove($id)
     {
-        $header = $this->getDbTable()->find($file->id)->current();
+        $header = $this->getDbTable()->find($id)->current();
         $this->getDetailTable()->find($header->detailId)->current()->delete();
         $header->delete();
     }
@@ -141,6 +172,11 @@ class Application_Model_Files
         } else {
             throw new Exception('Not a valid table gateway for Files Detail Model');
         }
+    }
+
+    protected function _updateDetailData($data, $id)
+    {
+        return $this->getDetailTable()->update($data, 'id = '.$id);
     }
 
     protected function _updateHeaderData($data, $id)

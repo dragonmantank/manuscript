@@ -2,14 +2,6 @@
 
 class FilesController extends Zend_Controller_Action
 {
-    public function infoAction()
-    {
-        $files  = new Application_Model_Files();
-        $file   = $files->find($this->_request->getParam('file'));
-
-        $this->view->file   = $file;
-    }
-
     public function addAction()
     {
         $this->_helper->layout->disableLayout();
@@ -50,6 +42,30 @@ class FilesController extends Zend_Controller_Action
         $this->_helper->redirector->gotoUrl('/files/info/file/'.$ref);
     }
 
+    public function createAction()
+    {
+        if($this->_request->isPost()) {
+            $this->_helper->layout->disableLayout();
+            $this->_helper->viewRenderer->setNoRender(true);
+
+            $files  = new Application_Model_Files();
+            $tags   = explode(',', $this->_request->getParam('tags'));
+
+            $fileData   = array(
+                'filename'          => str_replace(' ', '_', strtolower($this->_request->getParam('title'))).'.html',
+                'mimetype'          => 'text/html',
+                'size'              => 0,
+                'originalAuthor'    => Zend_Auth::getInstance()->getIdentity()->id,
+                'title'             => $this->_request->getParam('title'),
+                'body'              => $this->_request->getParam('file'),
+            );
+
+            $id = $files->create($fileData, $tags);
+
+            $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
+        }
+    }
+
     public function downloadAction()
     {
         $this->_helper->layout->disableLayout();
@@ -70,6 +86,19 @@ class FilesController extends Zend_Controller_Action
 		header('Content-Length: ' . $file->size);
 		readfile($path);
         die();
+    }
+
+    public function indexAction()
+    {
+        
+    }
+
+    public function infoAction()
+    {
+        $files  = new Application_Model_Files();
+        $file   = $files->find($this->_request->getParam('file'));
+
+        $this->view->file   = $file;
     }
 
     public function viewAction()

@@ -1,0 +1,31 @@
+<script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        CKEDITOR.replace(
+            'file',
+            {
+                toolbar : [
+                    ['Preview', 'Print'],
+                    ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord'],
+                    ['Spellchecker', 'Undo', 'Redo', 'Find', 'Replace', 'SelectAll', 'RemoveFormat'],
+                    ['Link', 'Unlink', 'Anchor', 'Table', 'HorizontalRule', 'SpecialChair'],
+                    ['Maximize'],
+                    '/',
+                    ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'NumberedList', 'BulletedList'],
+                    ['Outdent', 'Indent', 'Blockquote', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+                    '/',
+                    ['Styles', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor']
+                ]
+            }
+        );
+    }
+</script>
+
+<h1>Create New File</h1>
+
+<form method="post">
+    <b>Title:</b> <input type="text" name="title" id="title"><br />
+    <b>Tags:</b> <input type="text" name="tags" id="tags"><br />
+    <textarea id="file" name="file" style="width: 100%"></textarea>
+    <input type="submit" value="Create File">
+</form>
