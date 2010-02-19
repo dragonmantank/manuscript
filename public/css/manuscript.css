@@ -4,6 +4,15 @@ html, body {
     margin:             0px;
 }
 
+th, td {
+    border:             #CCC 1px solid;
+    padding:            5px;
+}
+
+th {
+    background-color:   #EEE;
+}
+
 #main-nav a, #hd-links a {
     color:              white;
     font-weight:        bold;
@@ -57,6 +66,10 @@ html, body {
     padding:            5px;
 }
 
+#bd h1 {
+    border-bottom:  #3F4C6B 1px solid;
+}
+
 .info, .success, .warning, .error, .validation {
     border: 1px solid;
     margin: 10px 0px;
@@ -85,3 +98,42 @@ html, body {
     background-color: #FFBABA;
     background-image: url('images/error.png');
 }
+
+.homeSection {
+    width:      45%;
+    display:    inline;
+    float:      left;
+    padding:    10px;
+}
+
+ul.sidemenu {
+         list-style:none;
+         margin:    0px;
+         padding:0;
+
+ }
+ ul.sidemenu li {
+         margin-bottom:1px;
+         border: 1px solid #f2f2f2;
+         list-style-type:   none;
+ }
+ ul.sidemenu a {
+         display:block;
+         font-weight:bold;
+         color: #333;
+         text-decoration:none;
+         padding:2px 5px 2px 10px;
+         background: #f2f2f2;
+         border-left:6px solid #CCC;
+
+         min-height:18px;
+ }
+
+ ul.sidemenu a { height: 18px; }
+
+ ul.sidemenu a:hover {
+         padding:2px 5px 2px 10px;
+         background: #f2f2f2;
+         color: #6C83B8;
+         border-left:6px solid #6C83B8;
+ }
