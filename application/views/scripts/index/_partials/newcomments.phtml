@@ -1,4 +1,4 @@
 <tr>
 	<td><a href="<?php echo $this->baseUrl(); ?>/files/info/file/<?php echo $this->fileId; ?>"><?php echo $this->title; ?></a></td>
-	<td><?php echo $this->author; ?></td>
+	<td><a href="mailto:<?php echo $this->getUserInfo($this->author, 'email'); ?>"><?php echo $this->getUserInfo($this->author, 'name'); ?></a></td>
 </tr>
