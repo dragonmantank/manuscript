@@ -9,23 +9,15 @@ class Application_Model_Files
     {
         if( is_uploaded_file($fileData['tmp_name']) ) {
             // Gather the Header Data
-            $hData['filename']          = $fileData['filename'];
-            $hData['directory']         = 'documents';
-            $hData['originalAuthor']    = $fileData['originalAuthor'];
-            $hData['title']             = $fileData['title'];
-            $hData['revision']          = 1;
+            $hData  = $this->_buildHeaderData($fileData);
             
             // Begin gathering the Detail data
-            $dData['fsFilename']        = md5($hData['filename'].$hData['title'].time());
-            $dData['mimetype']          = $fileData['mimetype'];
-            $dData['size']              = $fileData['size'];
-            $dData['dateUploaded']      = date('Y-m-d h:i:s');
-            $dData['author']            = $hData['originalAuthor'];
+            $dData  = $this->_buildDetailData($fileData);
 
             try {
-                $dData['fileId']    = $this->getDbTable()->insert($hData);
-                $detailId           = $this->getDetailTable()->insert($dData);
-                $this->getDbTable()->update(array('detailId' => $detailId), 'id = '.$dData['fileId']);
+                $dData['fileId']    = $this->_writeHeaderData($hData);
+                $detailId           = $this->_writeDetailData($dData);
+                $this->_updateHeaderData(array('detailId' => $detailId), $dData['fileId']);
 
                 $newName    = realpath(APPLICATION_PATH.'/../data/'.$hData['directory']).'/'.$dData['fsFilename'];
                 if(move_uploaded_file($fileData['tmp_name'], $newName)) {
@@ -34,8 +26,7 @@ class Application_Model_Files
 
                     return $dData['fileId'];
                 } else {
-                    $this->getDbTable()->find($dData['fileId'])->current()->delete();
-                    $this->getDetailTable()->find($detailId)->current()->delete();
+                    $this->remove($dData['fileId']);
 
                     throw new Exception('Could not move file to storage. Removed from DB');
                 }
@@ -51,6 +42,28 @@ class Application_Model_Files
     {
         $comments   = new Application_Model_Comments();
         return $comments->add($commentData);
+    }
+
+    protected function _buildDetailData($fileData)
+    {
+        $dData['fsFilename']        = md5($fileData['filename'].$fileData['title'].time());
+        $dData['mimetype']          = $fileData['mimetype'];
+        $dData['size']              = $fileData['size'];
+        $dData['dateUploaded']      = date('Y-m-d h:i:s');
+        $dData['author']            = $fileData['originalAuthor'];
+
+        return $dData;
+    }
+
+    protected function _buildHeaderData($fileData)
+    {
+        $hData['filename']          = $fileData['filename'];
+        $hData['directory']         = 'documents';
+        $hData['originalAuthor']    = $fileData['originalAuthor'];
+        $hData['title']             = $fileData['title'];
+        $hData['revision']          = 1;
+
+        return $hData;
     }
 
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)
@@ -90,6 +103,13 @@ class Application_Model_Files
         return $this->_detailTable;
     }
 
+    public function remove($id)
+    {
+        $header = $this->getDbTable()->find($file->id)->current();
+        $this->getDetailTable()->find($header->detailId)->current()->delete();
+        $header->delete();
+    }
+
     public function search($query)
     {
         $select = $this->getDbTable()->select()->from(array('h' => 'files'))
@@ -121,5 +141,20 @@ class Application_Model_Files
         } else {
             throw new Exception('Not a valid table gateway for Files Detail Model');
         }
+    }
+
+    protected function _updateHeaderData($data, $id)
+    {
+        return $this->getDbTable()->update($data, 'id = '.$id);
+    }
+
+    protected function _writeDetailData($dData)
+    {
+        return $this->getDetailTable()->insert($dData);
+    }
+
+    protected function _writeHeaderData($hData)
+    {
+        return $this->getDbTable()->insert($hData);
     }
 }
