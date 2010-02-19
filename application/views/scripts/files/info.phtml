@@ -62,34 +62,42 @@
 <table class="stripe fileDisplay" width="100%">
 	<thead>
 		<tr>
-			<th>Revision</th>
+			<th>Filename</th>
 			<th>Date Added</th>
 			<th>Uploaded By</th>
+            <th>Revision</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
         <?php if(count($this->revisions)): ?>
+            <?php $currentRev = $this->file->revision; ?>
     		<?php foreach($this->revisions as $rev): ?>
     			<tr>
-    				<td><?php echo $currentRev; ?></td>
-    				<td align="right"><?php echo date('m/d/Y', strtotime($rev->dateAdded)); ?></td>
-    				<td><a href="mailto:<?php echo $rev->email;?>"><?php echo $rev->name; ?></a></td>
+    				<td><?php echo $rev->filename; ?></td>
+    				<td align="right"><?php echo date('m/d/Y', strtotime($rev->dateUploaded)); ?></td>
+    				<td><a href="mailto:<?php echo $this->getUserInfo($rev->author, 'email'); ?>"><?php echo $this->getUserInfo($rev->author, 'name') ?></a></td>
+                    <td><?php echo $currentRev; ?></td>
     				<td align="center">
-    					<a href="<?php echo $this->baseUrl(); ?>/files/view/file/<?php echo $rev->detailId ?>/type/browser" target="_new">View</a> :
-    					<a href="<?php echo $this->baseUrl(); ?>/files/view/file/<?php echo $rev->detailId ?>/type/download" target="_new">Download</a>
+    					<a href="<?php echo $this->baseUrl(); ?>/files/view/file/<?php echo $rev->fileId ?>/detail/<?php echo $rev->id; ?>" target="_new">View</a> :
+    					<a href="<?php echo $this->baseUrl(); ?>/files/view/file/<?php echo $rev->fileId ?>/detail/<?php echo $rev->id; ?>" target="_new">Download</a>
     				</td>
     			</tr>
+                <?php $currentRev--; ?>
     		<?php endforeach; ?>
         <?php else: ?>
             <tr>
-                <td colspan="4" align="center"><b>There are no revisions</b></td>
+                <td colspan="5" align="center"><b>There are no revisions</b></td>
             </tr>
         <?php endif; ?>
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan="4" align="right"><button id="addRevButton">Add New Version</button></td>
+			<td colspan="5" align="right">
+                <form method="post" action="<?php echo $this->baseUrl(); ?>/files/addrevision/file/<?php echo $this->file->id; ?>"enctype="multipart/form-data">
+                    <input type="file" name="newRevision" id="newRevision"> <input type="submit" value="Upload Revision">
+                </form>
+            </td>
 		</tr>
 	</tfoot>
 </table>

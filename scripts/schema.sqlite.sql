@@ -10,7 +10,6 @@ CREATE INDEX "tagId" ON "tags" ("id");
 -- Header information for files
 CREATE TABLE files (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    filename VARCHAR(255) NOT NULL,
     directory VARCHAR(255) NOT NULL,
     originalAuthor INTEGER NOT NULL,
     revision INTEGER DEFAULT 1,
@@ -24,6 +23,7 @@ CREATE INDEX "fileId" ON "files" ("id");
 CREATE TABLE files_detail (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     fileId INTEGER NOT NULL,
+    filename VARCHAR(255) NOT NULL,
     fsFilename VARCHAR(255) NOT NULL,
     mimetype VARCHAR(255) NOT NULL,
     size INTEGER NOT NULL,

@@ -44,6 +44,32 @@ class Application_Model_Files
         return $comments->add($commentData);
     }
 
+    public function addRevision($fileData)
+    {
+        if(is_uploaded_file($fileData['tmp_name'])) {
+            $file   = $this->find($fileData['fileId']);
+
+            $fileData['title']      = $file->title;
+            
+            $dData              = $this->_buildDetailData($fileData);
+            $dData['fileId']    = $fileData['fileId'];
+
+            try {
+                $detailId   = $this->_writeDetailData($dData);
+                $this->_updateHeaderData(array('revision' => ($file->revision + 1), 'detailId' => $detailId), $file->id);
+
+                $newName    = realpath(APPLICATION_PATH.'/../data/'.$file->directory).'/'.$dData['fsFilename'];
+                if(move_uploaded_file($fileData['tmp_name'], $newName)) {
+                    return $fileData['fileId'];
+                }
+            } catch(Exception $e) {
+                throw new Exception('Error occured while adding the file: '.$e->getMessage());
+            }
+        } else {
+            throw new Exception('File was not uploaded');
+        }
+    }
+
     protected function _buildDetailData($fileData)
     {
         $dData['fsFilename']        = md5($fileData['filename'].$fileData['title'].time());
@@ -51,13 +77,13 @@ class Application_Model_Files
         $dData['size']              = $fileData['size'];
         $dData['dateUploaded']      = date('Y-m-d h:i:s');
         $dData['author']            = $fileData['originalAuthor'];
+        $dData['filename']          = $fileData['filename'];
 
         return $dData;
     }
 
     protected function _buildHeaderData($fileData)
     {
-        $hData['filename']          = $fileData['filename'];
         $hData['directory']         = 'documents';
         $hData['originalAuthor']    = $fileData['originalAuthor'];
         $hData['title']             = $fileData['title'];
@@ -102,10 +128,36 @@ class Application_Model_Files
         return $this->getDbTable()->fetchAll($where, $order, $count, $offset);
     }
 
+    public function fetchRevisions($id)
+    {
+        $select = $this->getDetailTable()->select()->from(array('d' => 'files_detail'))
+                                                   ->where('fileId = ?', $id)
+                                                   ->join(array('f' => 'files'), 'd.fileId = f.id', array('directory', 'originalAuthor', 'revision', 'title'))
+                                                   ->setIntegrityCheck(false)
+                                                   ->order('id DESC');
+
+        return $this->getDetailTable()->fetchAll($select);
+    }
+
     public function find($fileId)
     {
         $select = $this->getDbTable()->select()->from(array('h' => 'files'))
-                                               ->join(array('d' => 'files_detail'), 'h.id = d.fileId', array('fsFilename', 'mimetype', 'size', 'dateUploaded', 'author'))
+                                               ->join(array('d' => 'files_detail'), 'h.detailId = d.id', array('filename', 'fsFilename', 'mimetype', 'size', 'dateUploaded', 'author'))
+                                               ->setIntegrityCheck(false);
+        if( is_numeric($fileId) ) {
+            $select->where('h.id = ?', $fileId);
+        } else {
+            $select->where('d.fsFilename LIKE ?', $fileId);
+        }
+
+        return $this->getDbTable()->fetchRow($select);
+    }
+
+    public function findRevision($fileId, $revision)
+    {
+        $select = $this->getDbTable()->select()->from(array('h' => 'files'))
+                                               ->join(array('d' => 'files_detail'), 'd.fileId = h.id', array('filename', 'fsFilename', 'mimetype', 'size', 'dateUploaded', 'author'))
+                                               ->where('d.id = ?', $revision)
                                                ->setIntegrityCheck(false);
         if( is_numeric($fileId) ) {
             $select->where('h.id = ?', $fileId);
@@ -144,7 +196,7 @@ class Application_Model_Files
     public function search($query)
     {
         $select = $this->getDbTable()->select()->from(array('h' => 'files'))
-                                               ->join(array('d' => 'files_detail'), 'h.id = d.fileId', array('fsFilename', 'mimetype', 'size', 'dateUploaded', 'author'))
+                                               ->join(array('d' => 'files_detail'), 'h.id = d.fileId', array('filename', 'fsFilename', 'mimetype', 'size', 'dateUploaded', 'author'))
                                                ->where('filename LIKE ?', '%'.$query.'%')
                                                ->orWhere('title LIKE ?', '%'.$query.'%')
                                                ->setIntegrityCheck(false);

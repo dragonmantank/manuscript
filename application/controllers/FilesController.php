@@ -24,6 +24,27 @@ class FilesController extends Zend_Controller_Action
         $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
     }
 
+    public function addrevisionAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $files  = new Application_Model_Files();
+
+        $fileData   = array(
+            'fileId'            => $this->_request->getParam('file'),
+            'filename'          => $_FILES['newRevision']['name'],
+            'mimetype'          => $_FILES['newRevision']['type'],
+            'size'              => $_FILES['newRevision']['size'],
+            'tmp_name'          => $_FILES['newRevision']['tmp_name'],
+            'originalAuthor'    => Zend_Auth::getInstance()->getIdentity()->id,
+        );
+
+        $id = $files->addRevision($fileData);
+
+        $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
+    }
+
     public function addcommentAction()
     {
         $newComment = strip_tags(trim($this->_request->getParam('newComment')));
@@ -71,8 +92,13 @@ class FilesController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
 
+        $detail = $this->_request->getParam('detail');
         $files  = new Application_Model_Files();
-        $file   = $files->find($this->_request->getParam('file'));
+        if($detail != null) {
+            $file   = $files->findRevision($this->_request->getParam('file'), $detail);
+        } else {
+            $file   = $files->find($this->_request->getParam('file'));
+        }
 
         $path   = realpath(APPLICATION_PATH.'/../data/'.$file->directory).'/'.$file->fsFilename;
 
@@ -99,6 +125,7 @@ class FilesController extends Zend_Controller_Action
         $file   = $files->find($this->_request->getParam('file'));
 
         $this->view->file   = $file;
+        $this->view->revisions  = $files->fetchRevisions($file->id);
     }
 
     public function viewAction()
