@@ -6,6 +6,6 @@ class Zend_View_Helper_GetFileComments
     {
         $comments   = new Application_Model_Comments();
 
-        return $comments->fetchAll($comments->getDbTable()->select()->where('fileId = ?', $fileId), 'id DESC');
+        return $comments->getDbTable()->fetchAll($comments->getDbTable()->select()->where('fileId = ?', $fileId), 'id DESC');
     }
 }
