@@ -16,19 +16,19 @@
 	<div class="body">
 		<table class="fileDisplay" width="100%">
             <tr>
-                <th width="100px"><b>Total Space:</b></th>
+                <th style="width: 150px"><b>Total Space:</b></th>
                 <td><?php echo $this->filesize($this->systemInfo('totalSpace')); ?></td>
             </tr>
             <tr>
-                <th><b>Used Space:</b></th>
+                <th style="width: 150px"><b>Used Space:</b></th>
                 <td><?php echo $this->filesize($this->systemInfo('usedSpace')); ?></td>
             </tr>
             <tr>
-                <th><b>Space Available:</b></th>
+                <th style="width: 150px"><b>Space Available:</b></th>
                 <td><?php echo $this->filesize($this->systemInfo('availableSpace')); ?></td>
             </tr>
             <tr>
-                <th><b>Number of Files:</b></th>
+                <th style="width: 150px"><b>Number of Files:</b></th>
                 <td><?php echo $this->systemInfo('numFiles'); ?></td>
             </tr>
         </table>

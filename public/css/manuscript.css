@@ -70,6 +70,19 @@ th {
     border-bottom:  #3F4C6B 1px solid;
 }
 
+#ft {
+    text-align: right;
+    font-size:  8pt;
+    height:             20px;
+    line-height:        20px;
+    
+}
+
+#ft a {
+    color:  white;
+    font-weight:    bold;
+}
+
 .info, .success, .warning, .error, .validation {
     border: 1px solid;
     margin: 10px 0px;
