@@ -75,3 +75,21 @@ CREATE TABLE groups (
     name VARCHAR(255) NOT NULL
 );
 CREATE INDEX "groupsId" ON "groups" ("id");
+
+-- Mimetypes Database
+-- Contains a translation table for mimetypes
+CREATE TABLE mimetypes (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    mimetype VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    editable BOOL DEFAULT 0
+);
+CREATE INDEX "mimetypesId" ON "mimetypes" ("id");
+
+CREATE VIEW new_mimetypes AS 
+    SELECT 
+        DISTINCT fd.mimetype AS 'newMimetype' 
+    FROM 
+        files_detail AS fd 
+    WHERE 
+        NOT EXISTS (SELECT m.mimetype FROM mimetypes AS m WHERE fd.mimetype = m.mimetype);
