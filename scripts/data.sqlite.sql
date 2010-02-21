@@ -1,4 +1,4 @@
-INSERT INTO users (username, password, name, email, primaryGroup) VALUES
+INSERT INTO user_accounts (username, password, name, email, primaryGroup) VALUES
     ('root', 'bef3452591febf751a9333de927f2d9c', 'Root', 'root@domain.com', 1);
 
 INSERT INTO mimetypes (mimetype, description, editable) VALUES

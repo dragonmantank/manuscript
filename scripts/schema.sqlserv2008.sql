@@ -41,7 +41,31 @@ GO
 ALTER TABLE [dbo].[files] ADD CONSTRAINT [DF_files_revision] DEFAULT ((1)) FOR [revision]
 GO
 
-ALTER TABLE [dbo].[files] ADD CONSTRAINT [DF_files_detailId] DEFAULT ((1)) FOR [detailId]
+ALTER TABLE [dbo].[files] ADD CONSTRAINT [DF_files_detailId] DEFAULT ((0)) FOR [detailId]
+GO
+
+/**
+ * Files Detail
+ * Holds all the metadata for the file revisions
+ */
+CREATE TABLE [dbo].[files_detail] (
+    [id] [int] IDENTITY(1,1) NOT NULL,
+    [fileId] [int] NOT NULL,
+    [filename] [varchar] (255) NOT NULL,
+    [fsFilename] [varchar] (255) NOT NULL,
+    [mimetype] [varchar] (255) NOT NULL,
+    [size] [int] NOT NULL,
+    [dateUploaded] SMALLDATETIME NOT NULL,
+    [author] [int] NOT NULL,
+    CONSTRAINT [PK_files_detail] PRIMARY KEY CLUSTERED (
+        [id] ASC
+    ) WITH (
+        PAD_INDEX = OFF, 
+        STATISTICS_NORECOMPUTE = OFF, 
+        IGNORE_DUP_KEY = OFF, 
+        ALLOW_ROW_LOCKS = ON )
+    ON [PRIMARY] )
+ON [PRIMARY]
 GO
 
 /**
@@ -72,7 +96,7 @@ CREATE TABLE [dbo].[comments] (
     [fileId] [int] NOT NULL,
     [version] [int] NOT NULL,
     [comment] [ntext] NOT NULL,
-    [dateAdded] [datetime] NOT NULL,
+    [dateAdded] [SMALLDATETIME] NOT NULL,
     [author] [int] NOT NULL,
     CONSTRAINT [PK_comments] PRIMARY KEY CLUSTERED (
         [id] ASC
@@ -92,7 +116,7 @@ GO
  * Users Database 
  * Holds all the user metadata
  */
-CREATE TABLE [dbo].[users] (
+CREATE TABLE [dbo].[user_accounts] (
     [id] [int] IDENTITY(1,1) NOT NULL,
     [username] [varchar] (255) NOT NULL,
     [password] [varchar] (255) NOT NULL,
@@ -111,7 +135,7 @@ CREATE TABLE [dbo].[users] (
 ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[users] ADD CONSTRAINT [DF_users_active] DEFAULT ((1)) FOR [active]
+ALTER TABLE [dbo].[user_accounts] ADD CONSTRAINT [DF_users_active] DEFAULT ((1)) FOR [active]
 GO
 
 /**
@@ -134,13 +158,5 @@ CREATE TABLE [dbo].[mimetypes] (
 ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[editable] ADD CONSTRAINT [DF_mimetypes_editable] DEFAULT ((0)) FOR [active]
+ALTER TABLE [dbo].[mimetypes] ADD CONSTRAINT [DF_mimetypes_editable] DEFAULT ((0)) FOR [editable]
 GO
-
-CREATE VIEW [dbo].[new_mimetypes] AS
-    SELECT
-        DISTINCT fd.mimetype AS 'newMimetype'
-    FROM
-        files_detail AS fd
-    WHERE
-        NOT EXISTS(SELECT m.mimetype FROM mimetypes AS m WHERE fd.mimetype = m.mimetype);

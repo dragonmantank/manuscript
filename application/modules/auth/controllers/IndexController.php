@@ -16,7 +16,7 @@ class Auth_IndexController extends Zend_Controller_Action
                 $authAdapter = new Zend_Auth_Adapter_DbTable( $db );
 
                 try {
-                        $authAdapter->setTableName('users');
+                        $authAdapter->setTableName('user_accounts');
                         $authAdapter->setIdentityColumn('username');
                         $authAdapter->setCredentialColumn('password');
                         $authAdapter->setIdentity($username);

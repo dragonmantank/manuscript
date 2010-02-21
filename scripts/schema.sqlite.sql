@@ -55,7 +55,7 @@ CREATE INDEX "commentId" ON "comments" ("id");
 
 -- Users Database
 -- Holds all the user metadata
-CREATE TABLE users (
+CREATE TABLE user_accounts (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -64,9 +64,9 @@ CREATE TABLE users (
     active BOOL DEFAULT 1,
     primaryGroup INTEGER NOT NULL
 );
-CREATE INDEX "usersId" ON "users" ("id");
-CREATE UNIQUE INDEX "usersUniqueUsername" ON "users" ("username");
-CREATE UNIQUE INDEX "usersUniqueEmail" ON "users" ("email");
+CREATE INDEX "usersId" ON "user_accounts" ("id");
+CREATE UNIQUE INDEX "usersUniqueUsername" ON "user_accounts" ("username");
+CREATE UNIQUE INDEX "usersUniqueEmail" ON "user_accounts" ("email");
 
 -- Groups Database
 -- Holds all the group informatin
