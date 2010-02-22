@@ -7,7 +7,7 @@ class Manuscript_Controller_Plugin_Auth extends Zend_Controller_Plugin_Abstract
         $module = $request->getModuleName();
         $auth   = Zend_Auth::getInstance();
 
-        $openModules    = array('auth');
+        $openModules    = array('auth', 'accelerators');
 
         if(!in_array($module, $openModules)) {
             if( !$auth->hasIdentity()) {

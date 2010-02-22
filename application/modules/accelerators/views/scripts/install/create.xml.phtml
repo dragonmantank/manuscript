@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<openServiceDescription xmlns="http://www.microsoft.com/schemas/openservicedescription/1.0">
+    <homepageUrl><?php echo (empty($_SERVER['HTTPS']) ? 'http://' : 'https://').$_SERVER['HTTP_HOST'].$this->baseUrl(); ?></homepageUrl>
+    <display>
+        <name>Add to Manuscript</name>
+    </display>
+    <activity category="Send">
+        <activityAction context="selection">
+            <execute method="post" action="<?php echo (empty($_SERVER['HTTPS']) ? 'http://' : 'https://').$_SERVER['SERVER_NAME'].$this->baseUrl(); ?>/files/create">
+                <parameter name="texttocopy" value="{selection}" type="html"/>
+                <parameter name="title" value="{documentTitle}" />
+            </execute>
+        </activityAction>
+    </activity>
+</openServiceDescription>
