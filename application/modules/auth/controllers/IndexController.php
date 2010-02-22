@@ -10,7 +10,7 @@ class Auth_IndexController extends Zend_Controller_Action
         if($this->_request->isPost()) {
             if($form->isValid($this->_request->getPost())) {
                 $username       = $form->getValue('username');
-                $password       = md5($form->getValue('password'));
+                $password       = hash('sha384', $form->getValue('password') + $form->getValue('username'));
 
                 $db =  $this->getInvokeArg('bootstrap')->getResource('db');
                 $authAdapter = new Zend_Auth_Adapter_DbTable( $db );

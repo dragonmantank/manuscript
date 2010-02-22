@@ -32,6 +32,33 @@ class Admin_UsersController extends Zend_Controller_Action
         $this->view->form       = $form;
     }
 
+    public function editAction()
+    {
+        $users  = new Application_Model_Users();
+        $user   = $users->find($this->_request->getParam('user'));
+        $form   = new Admin_Form_EditUser();
+        
+        if($this->_request->isPost()) {
+            $data   = $this->_request->getPost();
+            if($form->isValid($data)) {
+                try {
+                    $users->update($form->getValues(), $user->id);
+                    $this->_helper->redirector('index');
+                } catch (Exception $e) {
+                    $this->view->message    = 'Error saving user info: '.$e->getMessage();
+                }
+            } else {
+                $this->view->message    = 'There was a problem with the form entry';
+            }
+        } else {
+            $form->populate($user->toArray());
+            $form->getElement('password')->setValue('');
+        }
+
+        $this->view->user   = $user;
+        $this->view->form   = $form;
+    }
+
     public function init()
     {
         $this->_helper->layout->setLayout('admin-layout');

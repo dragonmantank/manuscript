@@ -50,4 +50,20 @@ class Application_Model_Users
             throw new Exception('Not a valid table gateway for Users Model');
         }
     }
+
+    public function update($data, $id)
+    {
+        $new['username']        = $data['username'];
+        $new['name']            = $data['name'];
+        $new['email']           = $data['email'];
+        $new['primaryGroup']    = $data['primaryGroup'];
+
+        if(!empty($data['password'])) {
+            $new['password']    = hash('sha384', $data['password'] + $data['username']);
+        }
+
+        return $this->getDbTable()->update($new, 'id = '.$id);
+
+
+    }
 }

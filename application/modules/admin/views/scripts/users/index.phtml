@@ -15,7 +15,7 @@
         <?php foreach($this->users as $user): ?>
             <tr>
                 <td><?php echo $user->id; ?></td>
-                <td><?php echo $user->username; ?></td>
+                <td><a href="<?php echo $this->baseUrl(); ?>/admin/users/edit/user/<?php echo $user->id; ?>"><?php echo $user->username; ?></a></td>
                 <td><?php echo $user->name; ?></td>
                 <td><?php echo $user->email; ?></td>
                 <td><?php echo $user->active; ?></td>
