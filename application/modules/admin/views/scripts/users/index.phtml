@@ -18,7 +18,7 @@
                 <td><a href="<?php echo $this->baseUrl(); ?>/admin/users/edit/user/<?php echo $user->id; ?>"><?php echo $user->username; ?></a></td>
                 <td><?php echo $user->name; ?></td>
                 <td><?php echo $user->email; ?></td>
-                <td><?php echo $user->active; ?></td>
+                <td><a href="<?php echo $this->baseUrl(); ?>/admin/users/changestatus/user/<?php echo $user->id; ?>"><?php echo ($user->active ? 'Active' : 'Inactive'); ?></a></td>
                 <td><?php echo $user->primaryGroup; ?></td>
             </tr>
         <?php endforeach; ?>

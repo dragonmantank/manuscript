@@ -32,6 +32,13 @@ class Admin_UsersController extends Zend_Controller_Action
         $this->view->form       = $form;
     }
 
+    public function changestatusAction()
+    {
+        $users  = new Application_Model_Users();
+        $users->changeStatus($this->_request->getParam('user'));
+        $this->_helper->redirector('index');
+    }
+
     public function editAction()
     {
         $users  = new Application_Model_Users();

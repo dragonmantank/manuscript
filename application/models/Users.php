@@ -13,6 +13,14 @@ class Application_Model_Users
         return $this->getDbTable()->insert($data);
     }
 
+    public function changeStatus($id)
+    {
+        $user       = $this->find($id);
+        $newStatus  = ($user->active ? 0 : 1);
+
+        return $this->getDbTable()->update(array('active' => $newStatus), 'id = '.$id);
+    }
+
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)
     {
         return $this->getDbTable()->fetchAll($where, $order, $count, $offset);
