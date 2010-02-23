@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <user_accounts id="1" username="root" password="5f91550edb03f0bb8917da57f0f8818976f5da971307b7ee4886bb951c4891a1f16f840dae8f655aa5df718884ebc15b" name="Root" email="root@domain.com" active="1" primaryGroup="1" />
+    <user_accounts id="2" username="testuser" password="44a6b07feeb5b683758601ec253bf3d8faf2033e377628a19bdefbb8f34934f8e8e726121584de2ea8922c606bcd598a" name="Test User" email="testuser@domain.com" active="1" primaryGroup="1" />
+</dataset>
