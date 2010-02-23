@@ -24,13 +24,18 @@ class Application_Model_Tags
 
     public function associate(array $tags, $id)
     {
-        $this->getXrefTable()->delete('fileId = '.$id);
+        $this->disassociate($id);
         foreach($tags as $tag) {
             $tagId  = $this->add($tag);
             if($tagId !== null) {
                 $this->getXrefTable()->insert(array('tagId' => $tagId, 'fileId' => $id));
             }
         }
+    }
+
+    public function disassociate($fileId)
+    {
+        return $this->getXrefTable()->delete('fileId = '.$fileId);
     }
 
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)

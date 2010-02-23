@@ -123,6 +123,28 @@ class Application_Model_Files
         }
     }
 
+    public function delete($id)
+    {
+        $file       = $this->find($id);
+        $select     = $this->getDetailTable()->select()->where('fileId = ?', $id);
+        $details    = $this->getDetailTable()->fetchAll($select);
+
+        // Remove tag associations
+        $tagsModel   = new Application_Model_Tags();
+        $tagsModel->disassociate($id);
+
+        // Delete header
+        $this->getDbTable()->delete('id = '.$id);
+
+        // Delete details
+        $this->getDetailTable()->delete('fileId = '.$id);
+
+        // Delete from FS
+        foreach($details as $detail) {
+            unlink(realpath(APPLICATION_PATH.'/../data/'.$file->directory).'/'.$detail->fsFilename);
+        }
+    }
+
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)
     {
         return $this->getDbTable()->fetchAll($where, $order, $count, $offset);

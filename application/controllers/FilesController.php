@@ -92,6 +92,25 @@ class FilesController extends Zend_Controller_Action
         }
     }
 
+    public function deleteAction()
+    {
+        $files  = new Application_Model_Files();
+        $id     = $this->_request->getParam('file');
+        $file   = $files->find($id);
+
+        if($this->_request->isPost()) {
+            $data   = $this->_request->getPost();
+
+            if(array_key_exists('deleteYes', $data)) {
+                $files->delete($id);
+                $this->_helper->redirector->gotoUrl('/');
+            } else {
+                $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
+            }
+        }
+        $this->view->file   = $file;
+    }
+
     public function downloadAction()
     {
         $this->_helper->layout->disableLayout();
