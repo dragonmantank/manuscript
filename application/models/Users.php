@@ -6,7 +6,7 @@ class Application_Model_Users
 
     public function add($data)
     {
-        $data['password']       = md5($data['password']);
+        $data['password']       = hash('sha384', ($data['password'] + $data['username']));
         $data['primaryGroup']   = (int)$data['primaryGroup'];
         $data['username']       = strtolower($data['username']);
 
