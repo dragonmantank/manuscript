@@ -119,6 +119,40 @@ class FilesController extends Zend_Controller_Action
         die();
     }
 
+    public function editinfoAction()
+    {
+        $files  = new Application_Model_Files();
+        $file   = $files->find($this->_request->getParam('file'));
+        $form   = new Application_Form_EditFileInfo();
+
+        if($this->_request->isPost()) {
+            $data   = $this->_request->getPost();
+
+            if($form->isValid($data)) {
+                $data   = $form->getValues();
+
+                try {
+                    $files->updateInfo($data, $file->id);
+                    $this->_helper->redirector->gotoUrl('files/info/file/'.$file->id);
+                } catch (Exception $e) {
+                    $this->view->message    = 'An error occured: '.$e->getMessage();
+                }
+            } else {
+                $this->view->message    = 'There was a problem with the form submission';
+            }
+        } else {
+            $form->populate($file->toArray());
+            $tags   = array();
+            foreach($this->view->getFileTags($file->id) as $tag) {
+                $tags[] = $tag['name'];
+            }
+            $form->getElement('tags')->setValue(implode(', ', $tags));
+        }
+
+        $this->view->file   = $file;
+        $this->view->form   = $form;
+    }
+
     public function indexAction()
     {
         

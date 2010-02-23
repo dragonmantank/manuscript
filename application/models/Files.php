@@ -231,6 +231,13 @@ class Application_Model_Files
         return $this->getDetailTable()->update($data, 'id = '.$id);
     }
 
+    public function updateInfo($data, $id)
+    {
+        $this->_updateHeaderData(array('title' => $data['title']), $id);
+        $tagsModel   = new Application_Model_Tags();
+        $tagsModel->associate(explode(',', $data['tags']), $id);
+    }
+
     protected function _updateHeaderData($data, $id)
     {
         return $this->getDbTable()->update($data, 'id = '.$id);

@@ -1,0 +1,46 @@
+<h1>Editing '<?php echo $this->file->title; ?>'</h1>
+
+<?php if(!empty($this->message)): ?>
+    <div class="error"><?php echo $this->message; ?></div>
+<?php endif; ?>
+
+<h2>File Data</h2>
+<form method="post">
+<table class="stripe fileDisplay" width="100%">
+	<tbody>
+		<tr>
+			<th width="15%">Title:</th>
+			<td><?php echo $this->form->getElement('title'); ?></td>
+		</tr>
+		<tr>
+			<th>Filename:</th>
+			<td><?php echo $this->file->filename; ?></td>
+		</tr>
+        <tr>
+            <th>Tags:</th>
+            <td><?php echo $this->form->getElement('tags'); ?></td>
+        </tr>
+		<tr>
+			<th>File Type:</th>
+			<td><?php echo $this->MimeType($this->file->mimetype); ?></td>
+		</tr>
+		<tr>
+			<th>File Size:</th>
+			<td><?php echo $this->Filesize($this->file->size); ?></td>
+		</tr>
+		<tr>
+			<th>Current Revision:</th>
+			<td><?php echo $this->file->revision; ?></td>
+		</tr>
+		<tr>
+			<th>Current Author:</th>
+			<td><a href="mailto:<?php echo $this->getUserInfo($this->file->author, 'email'); ?>"><?php echo $this->getUserInfo($this->file->author, 'name'); ?></a></td>
+		</tr>
+	</tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2" align="right"><input type="submit" value="Save Changes"></td>
+        </tr>
+    </tfoot>
+</table>
+</form>

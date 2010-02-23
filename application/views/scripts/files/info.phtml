@@ -5,7 +5,7 @@
 	<tbody>
 		<tr>
 			<th width="15%">Title:</th>
-			<td><?php echo $this->file->title; ?> (<a href="<?php echo $this->baseUrl(); ?>/files/download/file/<?php echo $this->file->id ?>" target="_new">View</a>) </td>
+			<td><a href="<?php echo $this->baseUrl(); ?>/files/download/file/<?php echo $this->file->id ?>" target="_new"><?php echo $this->file->title; ?></a></td>
 		</tr>
 		<tr>
 			<th>Filename:</th>
@@ -32,6 +32,14 @@
 			<td><a href="mailto:<?php echo $this->getUserInfo($this->file->author, 'email'); ?>"><?php echo $this->getUserInfo($this->file->author, 'name'); ?></a></td>
 		</tr>
 	</tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2" align="right">
+                <a href="<?php echo $this->baseUrl(); ?>/files/editinfo/file/<?php echo $this->file->id; ?>">Edit Information</a> :
+                Delete File
+            </td>
+        </tr>
+    </tfoot>
 </table>
 
 <h2>Comments</h2>

@@ -24,6 +24,7 @@ class Application_Model_Tags
 
     public function associate(array $tags, $id)
     {
+        $this->getXrefTable()->delete('fileId = '.$id);
         foreach($tags as $tag) {
             $tagId  = $this->add($tag);
             if($tagId !== null) {
