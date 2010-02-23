@@ -14,6 +14,7 @@ $getopt = new Zend_Console_Getopt(array(
    'withdata|w'     => 'Load the database with sample data',
     'env|e-s'       => 'Application environment to create the db',
     'help|h'        => 'Help -- usage message',
+    'coverage-html' => 'Only here to satisfy the script when used with PHPUnit'
 ));
 
 try {

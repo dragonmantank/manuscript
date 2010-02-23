@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <comments id="1" fileId="5" version="4" comment="This is a comment" dateAdded="2010-02-04 00:00:00" author="1" />
+    <files id="5" directory="documents" originalAuthor="1" revision="4" title="File Title" detailId="1" />
+    <files_detail id="1" fileId="5" filename="file.doc" fsFilename="hash" mimetype="text/plain" size="100" dateUploaded="2010-01-12 00:00:00" author="1" />
+</dataset>
