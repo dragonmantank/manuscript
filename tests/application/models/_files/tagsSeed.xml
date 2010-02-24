@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <tags id="1" name="Programming" />
+    <tags id="2" name="Sample" />
+    <tags id="3" name="Tag" />
+
+    <files_tags_xref id="1" fileId="5" tagId="1" />
+    <files_tags_xref id="2" fileId="5" tagId="2" />
+    <files_tags_xref id="3" fileId="1" tagId="3" />
+
+    <files id="1" directory="documents" originalAuthor="1" revision="1" title="File Title2" detailId="2" />
+    <files id="5" directory="documents" originalAuthor="1" revision="1" title="File Title" detailId="1" />
+
+    <files_detail id="1" fileId="5" filename="file.doc" fsFilename="hash" mimetype="text/plain" size="100" dateUploaded="2010-01-12 00:00:00" author="1" />
+    <files_detail id="2" fileId="1" filename="file2.doc" fsFilename="hash2" mimetype="text/plain" size="100" dateUploaded="2010-01-13 00:00:00" author="1" />
+</dataset>
