@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <mimetypes id="1" mimetype="text/plain" description="Plain Text File" editable="1" />
+    <mimetypes id="2" mimetype="text/html" description="HTML File" editable="1" />
+    <mimetypes id="3" mimetype="application/msword" description="Word Document" editable="0" />
+    <files_detail id="1" fileId="1" filename="Test File.unk" fsFilename="hash" mimetype="application/unknown" size="4" dateUploaded="2010-10-10 00:00:00" author="1" />
+</dataset>
