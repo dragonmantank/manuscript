@@ -6,6 +6,6 @@ class Zend_View_Helper_GetTags
     {
         $tags   = new Application_Model_Tags();
 
-        return $tags->fetchAll();
+        return $tags->fetchAll(null, 'name ASC');
     }
 }
