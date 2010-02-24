@@ -1,5 +1,5 @@
 INSERT INTO user_accounts (username, password, name, email, primaryGroup) VALUES
-    ('root', '5f91550edb03f0bb8917da57f0f8818976f5da971307b7ee4886bb951c4891a1f16f840dae8f655aa5df718884ebc15b', 'Root', 'root@domain.com', 1);
+    ('root', 'a5bbbe41b5f03df38576fd4b884a755e3dac72c9a26657d7cc3c25d6ba035037d91714a5eebbbce12a2c4da9f08ae807', 'Root', 'root@domain.com', 1);
 
 INSERT INTO mimetypes (mimetype, description, editable) VALUES
     ('application/msword', 'Word Document', 0);
