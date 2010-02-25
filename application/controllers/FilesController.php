@@ -65,31 +65,43 @@ class FilesController extends Zend_Controller_Action
 
     public function createAction()
     {
+        $form = new Application_Form_CreateFile();
+
         if($this->_request->isPost()) {
             if($this->_request->getParam('texttocopy') == null) {
-                $this->_helper->layout->disableLayout();
-                $this->_helper->viewRenderer->setNoRender(true);
+                $data   = $this->_request->getPost();
 
-                $files  = new Application_Model_Files();
-                $tags   = explode(',', $this->_request->getParam('tags'));
+                if($form->isValid($data)) {
+                    $this->_helper->layout->disableLayout();
+                    $this->_helper->viewRenderer->setNoRender(true);
 
-                $fileData   = array(
-                    'filename'          => str_replace(' ', '_', strtolower($this->_request->getParam('title'))).'.html',
-                    'mimetype'          => 'text/html',
-                    'size'              => 0,
-                    'originalAuthor'    => Zend_Auth::getInstance()->getIdentity()->id,
-                    'title'             => $this->_request->getParam('title'),
-                    'body'              => $this->_request->getParam('file'),
-                );
+                    $data = $form->getValues();
 
-                $id = $files->create($fileData, $tags);
+                    $files  = new Application_Model_Files();
+                    $tags   = explode(',', $data['tags']);
 
-                $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
+                    $fileData   = array(
+                        'filename'          => str_replace(' ', '_', strtolower($data['title'])).'.html',
+                        'mimetype'          => 'text/html',
+                        'size'              => 0,
+                        'originalAuthor'    => Zend_Auth::getInstance()->getIdentity()->id,
+                        'title'             => $data['title'],
+                        'body'              => $data['file'],
+                    );
+
+                    $id = $files->create($fileData, $tags);
+
+                    $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
+                } else {
+                    $this->view->message = 'There was a problem with the entry';
+                }
             } else {
                 $this->view->texttocopy = $this->_request->getParam('texttocopy');
                 $this->view->title      = $this->_request->getParam('title');
             }
         }
+
+        $this->view->form   = $form;
     }
 
     public function deleteAction()

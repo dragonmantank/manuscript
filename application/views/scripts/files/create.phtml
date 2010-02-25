@@ -23,9 +23,8 @@
 
 <h1>Create New File</h1>
 
-<form method="post">
-    <b>Title:</b> <input type="text" name="title" id="title" value="<?php echo $this->title; ?>"><br />
-    <b>Tags:</b> <input type="text" name="tags" id="tags"><br />
-    <textarea id="file" name="file" style="width: 100%"><?php echo $this->texttocopy; ?></textarea>
-    <input type="submit" value="Create File">
-</form>
+<?php if(!empty($this->message)): ?>
+    <div class="error"><?php echo $this->message; ?></div>
+<?php endif; ?>
+
+<?php echo $this->form; ?>
