@@ -22,5 +22,14 @@ $application = new Zend_Application(
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
+
+$localConfigFile = APPLICATION_PATH.'/configs/local.ini';
+if(is_file($localConfigFile)) {
+    $config = new Zend_Config($application->getOptions(), true);
+    $local  = new Zend_Config_Ini($localConfigFile);
+    $config->merge($local);
+    $application->setOptions($config->toArray());
+}
+
 $application->bootstrap()
             ->run();

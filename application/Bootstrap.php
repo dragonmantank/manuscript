@@ -26,6 +26,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $fc->registerPlugin( new Manuscript_Controller_Plugin_Auth() );
 
+        $config = $this->getApplication()->getOptions();
+        if(!array_key_exists('installed', $config)) {
+           // $fc->registerPlugin( new Manuscript_Controller_Plugin_RunInstall() );
+        }
+
         return $fc;
     }
 

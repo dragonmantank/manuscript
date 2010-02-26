@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <?php
+        $this->headTitle()->prepend('Manuscript Installation');
+        $this->headTitle()->setSeparator(' :: ');
+        print $this->headTitle();
+    ?>
+
+    <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/reset-fonts-grids.css" type="text/css" />
+    <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/base-min.css" type="text/css" />
+    <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/manuscript.css" type="text/css" />
+
+    <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery-1.4.2.min.js"></script>
+
+</head>
+<body>
+<div id="doc3" class="yui-t7">
+<div id="hd">
+        <div id="hd-links">
+            
+        </div>
+
+        <h1>Manuscript Installation</h1>
+    </div>
+    <div id="main-nav">
+        
+    </div>
+    <div id="bd">
+        <div class="yui-g">
+            <!-- YOUR DATA GOES HERE -->
+            <?php echo $this->layout()->content; ?>
+        </div>
+	</div>
+    <div id="ft">
+            Powered by <a href="http://code.google.com/p/manuscript">Manuscript</a>
+    </div>
+</div>
+</body>
+</html>

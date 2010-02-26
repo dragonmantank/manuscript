@@ -1,0 +1,33 @@
+<script type="text/javascript">
+</script>
+
+<h1>Manuscript Installation</h1>
+
+Congrats! If you've made it this far you seem to have the base install of
+Manuscript all set up. All we need to do is gather some database-specific
+information so that we can get everything all set.
+
+<form method="post">
+<h2>Database</h2>
+Manuscript supports SQLite3 and Microsoft SQL Server 2008. Which one do you want
+to use?
+
+<select name="dbType">
+    <option value="null">Select One...</option>
+    <option value="sqlite">SQLite3</option>
+    <option value="sqlserver2k8">SQL Server 2008</option>
+</select>
+
+<div id="sqlOptions">
+    <h2>SQLite Options</h2>
+    There are none! The system will automatically build the database and fill it with the needed data.
+</div>
+
+<div id="installButton">
+    <h2>Install!</h2>
+
+    Click the button to install Manuscript.<br/>
+    <input type="submit" value="Install Manuscript">
+</div>
+
+</form>
