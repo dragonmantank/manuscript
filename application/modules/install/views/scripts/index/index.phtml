@@ -1,4 +1,21 @@
 <script type="text/javascript">
+    $(document).ready(function() {
+        $('#dbType').change(function() {
+           $('#sqlServerOptions').hide();
+           $('#sqlOptions').hide();
+           $('#installButton').hide();
+
+            switch($('#dbType').val()) {
+                case 'sqlite':
+                    $('#sqlOptions').fadeIn();
+                    $('#installButton').fadeIn();
+                    break;
+                case 'sqlserver2k8':
+                    $('#sqlServerOptions').fadeIn();
+                    break;
+            }
+        });
+    });
 </script>
 
 <h1>Manuscript Installation</h1>
@@ -12,22 +29,26 @@ information so that we can get everything all set.
 Manuscript supports SQLite3 and Microsoft SQL Server 2008. Which one do you want
 to use?
 
-<select name="dbType">
-    <option value="null">Select One...</option>
-    <option value="sqlite">SQLite3</option>
-    <option value="sqlserver2k8">SQL Server 2008</option>
-</select>
+<?php echo $this->form->getElement('dbType'); ?>
 
-<div id="sqlOptions">
+<div id="sqlOptions" style="display: none">
     <h2>SQLite Options</h2>
     There are none! The system will automatically build the database and fill it with the needed data.
 </div>
 
-<div id="installButton">
-    <h2>Install!</h2>
+<div id="sqlServerOptions" style="display: none">
+    <h2>SQL Server 2008 Options</h2>
+    <?php echo $this->form->getElement('host'); ?>
+    <?php echo $this->form->getElement('username'); ?>
+    <?php echo $this->form->getElement('password'); ?>
+    <?php echo $this->form->getElement('dbname'); ?>
+</div>
 
-    Click the button to install Manuscript.<br/>
-    <input type="submit" value="Install Manuscript">
+<div id="installButton" style="display: none">
+    <h2>Install!</h2>
+    We have everything we need. Click the button below and if all goes well you'll be able to log in!
+    <?php echo $this->form->getElement('install'); ?>
 </div>
 
 </form>
+
