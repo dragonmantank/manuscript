@@ -1,0 +1,62 @@
+<?php
+	$sqlite = function_exists('sqlite_factory');
+	$pdo	= class_exists('PDO');
+?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#dbType').change(function() {
+           $('#sqlServerOptions').hide();
+           $('#sqlOptions').hide();
+           $('#installButton').hide();
+
+            switch($('#dbType').val()) {
+                case 'sqlite':
+                    $('#sqlOptions').fadeIn();
+                    $('#installButton').fadeIn();
+                    break;
+                case 'sqlserver2k8':
+                    $('#sqlServerOptions').fadeIn();
+                    $('#installButton').fadeIn();
+                    break;
+            }
+        });
+    });
+</script>
+
+<h1>Manuscript Installation</h1>
+
+Congrats! If you've made it this far you seem to have the base install of
+Manuscript all set up. We just need to make sure that a few things are available before we continue.
+
+<p>
+<table>
+    <tr>
+        <th>Sever OS:</th>
+        <td>*nix</td>
+    </tr>
+    <tr>
+        <th>SQLite Available:</th>
+        <td><?php echo ($sqlite ? 'Yes': 'No'); ?></td>
+    </tr>
+    <tr>
+        <th>PDO Available:</th>
+        <td><?php echo ($pdo ? 'Yes': 'No'); ?></td>
+    </tr>
+</table>
+</p>
+
+<p>
+<?php if($sqlite && $pdo): ?>
+	<form method="post">
+	<input type="hidden" name="dbType" value="sqlite"/>
+	<h2>Install!</h2>
+	We have everything we need. Click the button below and if all goes well you'll be able to log in!
+	<?php echo $this->form->getElement('install'); ?>
+	</form>
+<?php else: ?>
+	<h2>Oops!</h2>
+	It looks like we are missing something. Please make sure that SQLite and PDO has been installed for your version of PHP. You might need to contact your server admin for this. 
+
+	<p>
+	Once both of those are installed, visit this page again and Manuscript can be installed!
+<?php endif; ?>
