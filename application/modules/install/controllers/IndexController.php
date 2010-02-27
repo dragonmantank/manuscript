@@ -38,7 +38,7 @@ class Install_IndexController extends Zend_Controller_Action
 
         $this->view->form   = $form;
 
-	if(stripos($_SERVER['SERVER_SOFTWARE'], 'Micrsoft') === false) {
+	if(stripos($_SERVER['SERVER_SOFTWARE'], 'Microsoft') === false) {
 		$this->render('index-linux');
 	}
     }
