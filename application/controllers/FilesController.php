@@ -7,21 +7,26 @@ class FilesController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(true);
 
-        $files  = new Application_Model_Files();
-        $tags   = explode(',', $this->_request->getParam('tags'));
+        if(count($_FILES) && !empty($_FILES['file']['tmp_name'])) {
+            $files  = new Application_Model_Files();
+            $tags   = explode(',', $this->_request->getParam('tags'));
+        
+            $fileData   = array(
+                'filename'  => $_FILES['file']['name'],
+                'mimetype'          => $_FILES['file']['type'],
+                'size'          => $_FILES['file']['size'],
+                'tmp_name'          => $_FILES['file']['tmp_name'],
+                'originalAuthor'            => Zend_Auth::getInstance()->getIdentity()->id,
+                'title'             => $this->_request->getParam('title'),
+            );
 
-        $fileData   = array(
-            'filename'  => $_FILES['file']['name'],
-            'mimetype'          => $_FILES['file']['type'],
-            'size'          => $_FILES['file']['size'],
-            'tmp_name'          => $_FILES['file']['tmp_name'],
-            'originalAuthor'            => Zend_Auth::getInstance()->getIdentity()->id,
-            'title'             => $this->_request->getParam('title'),
-        );
+            $id = $files->add($fileData, $tags);
 
-        $id = $files->add($fileData, $tags);
-
-        $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
+            $this->_helper->redirector->gotoUrl('files/info/file/'.$id);
+        } else {
+            $this->_helper->FlashMessenger->addMessage('File uploaded was too large. Please change your settings or upload a smaller file');
+            $this->_helper->redirector('index', 'index', 'index');
+        }
     }
 
     public function addrevisionAction()

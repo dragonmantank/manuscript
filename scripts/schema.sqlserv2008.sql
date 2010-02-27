@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[tags] (
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]
-GO
+
 
 /**
  * Files Database
@@ -36,13 +36,13 @@ CREATE TABLE [dbo].[files] (
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]
-GO
+
 
 ALTER TABLE [dbo].[files] ADD CONSTRAINT [DF_files_revision] DEFAULT ((1)) FOR [revision]
-GO
+
 
 ALTER TABLE [dbo].[files] ADD CONSTRAINT [DF_files_detailId] DEFAULT ((0)) FOR [detailId]
-GO
+
 
 /**
  * Files Detail
@@ -66,7 +66,7 @@ CREATE TABLE [dbo].[files_detail] (
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]
-GO
+
 
 /**
  * Files to Tags Cross Reference 
@@ -85,7 +85,7 @@ CREATE TABLE [dbo].[files_tags_xref] (
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]
-GO
+
 
 /**
  * Comments Database 
@@ -107,10 +107,10 @@ CREATE TABLE [dbo].[comments] (
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]
-GO
+
 
 ALTER TABLE [dbo].[comments] ADD CONSTRAINT [DF_comments_dateAdded] DEFAULT (getdate()) FOR [dateAdded]
-GO
+
 
 /**
  * Users Database 
@@ -133,10 +133,10 @@ CREATE TABLE [dbo].[user_accounts] (
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]
-GO
+
 
 ALTER TABLE [dbo].[user_accounts] ADD CONSTRAINT [DF_users_active] DEFAULT ((1)) FOR [active]
-GO
+
 
 /**
  * Mimetypes Database 
@@ -156,7 +156,6 @@ CREATE TABLE [dbo].[mimetypes] (
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]
-GO
+
 
 ALTER TABLE [dbo].[mimetypes] ADD CONSTRAINT [DF_mimetypes_editable] DEFAULT ((0)) FOR [editable]
-GO
