@@ -31,7 +31,7 @@ class Admin_Form_User extends Zend_Form
 
         $name->setLabel('Name:')
              ->setRequired(true)
-             ->addFilters(array('StringTrim', 'StripTags', 'Alnum'))
+             ->addFilters(array('StringTrim', 'StripTags'))
              ->addValidator('NotEmpty');
 
         $email->setLabel('Email Address:')
