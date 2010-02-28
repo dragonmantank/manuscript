@@ -2,9 +2,14 @@
 
 class Install_IndexController extends Zend_Controller_Action
 {
-    public function init()
+    public function preDispatch()
     {
         $this->_helper->layout->setLayout('install-layout');
+        $config = $this->getInvokeArg('bootstrap')->getOptions();
+
+        if($config['installed']) {
+            $this->_helper->redirector('index', 'index', 'index');
+        }
     }
     
     public function indexAction()
@@ -63,7 +68,7 @@ class Install_IndexController extends Zend_Controller_Action
             $config->resources->db->params->password    = $data['password'];
             $config->resources->db->params->dbname      = $data['dbname'];
             $config->resources->db->params->driver_options = array();
-            $config->resources->db->params->driver_options->ReturnDatesAsStrings = true
+            $config->resources->db->params->driver_options->ReturnDatesAsStrings = true;
         }
 
         return $config;
