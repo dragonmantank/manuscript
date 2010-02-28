@@ -62,6 +62,8 @@ class Install_IndexController extends Zend_Controller_Action
             $config->resources->db->params->username    = $data['username'];
             $config->resources->db->params->password    = $data['password'];
             $config->resources->db->params->dbname      = $data['dbname'];
+            $config->resources->db->params->driver_options = array();
+            $config->resources->db->params->driver_options->ReturnDatesAsStrings = true
         }
 
         return $config;
