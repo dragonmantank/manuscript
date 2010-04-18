@@ -63,7 +63,6 @@
 	<h2>Add File</h2>
 	<div class="body">
 		<form method="post" action="<?php echo $this->baseUrl(); ?>/files/add" enctype="multipart/form-data">
-                        <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo (((int)ini_get('upload_max_filesize') * 1024)) ;?>">
 			<table width=100% class="fileDisplay">
 				<tr>
 					<th><label>Title:</label></th>
