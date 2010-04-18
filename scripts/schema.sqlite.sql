@@ -6,6 +6,13 @@ CREATE TABLE tags (
 );
 CREATE INDEX "tagId" ON "tags" ("id");
 
+CREATE TABLE config (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    key VARCHAR(255) NOT NULL,
+    value VARCHAR(255) NOT NULL
+);
+CREATE INDEX "configId" on "config" ("id");
+
 -- Files Database
 -- Header information for files
 CREATE TABLE files (

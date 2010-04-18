@@ -1,3 +1,5 @@
+INSERT INTO config (key, value) VALUES ("version", "1");
+
 INSERT INTO user_accounts (username, password, name, email, primaryGroup) VALUES
     ('root', 'a5bbbe41b5f03df38576fd4b884a755e3dac72c9a26657d7cc3c25d6ba035037d91714a5eebbbce12a2c4da9f08ae807', 'Root', 'root@domain.com', 1);
 
