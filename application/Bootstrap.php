@@ -29,6 +29,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $config = $this->getApplication()->getOptions();
         if(!array_key_exists('installed', $config)) {
            $fc->registerPlugin( new Manuscript_Controller_Plugin_RunInstall() );
+        } else {
+            $this->bootstrap('db');
+            $db = $this->getResource('db');
+            $fc->registerPlugin( new Manuscript_Controller_Plugin_CheckDBDeltas($config['delta_version'], $db) );
         }
 
         return $fc;
@@ -38,6 +42,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $loader = Zend_Loader_Autoloader::getInstance();
         $loader->registerNamespace('Manuscript_');
+        $loader->registerNamespace('Tws_');
     }
 }
 

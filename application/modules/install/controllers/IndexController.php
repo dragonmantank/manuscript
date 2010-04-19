@@ -80,10 +80,9 @@ class Install_IndexController extends Zend_Controller_Action
             unlink($config->resources->db->params->dbname);
         }
 
-        $schemaSql = file_get_contents(APPLICATION_PATH.'/../scripts//schema.sqlite.sql');
-        $db->getConnection()->exec($schemaSql);
-        $dataSql = file_get_contents(APPLICATION_PATH.'/../scripts//data.sqlite.sql');
-        $db->getConnection()->exec($dataSql);
+        $base = Tws_SchemaManager::factory($db);
+        $base->setNamespace('Manuscript_SchemaManager');
+        $base->install();
     }
 
     /**
