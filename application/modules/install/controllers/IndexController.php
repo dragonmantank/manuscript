@@ -7,7 +7,7 @@ class Install_IndexController extends Zend_Controller_Action
         $this->_helper->layout->setLayout('install-layout');
         $config = $this->getInvokeArg('bootstrap')->getOptions();
 
-        if($config['installed']) {
+        if(@$config['installed']) {
             $this->_helper->redirector('index', 'index', 'index');
         }
     }
@@ -29,13 +29,7 @@ class Install_IndexController extends Zend_Controller_Action
 
                 $db = Zend_Db::factory($config->resources->db->adapter, $config->resources->db->params);
 
-                if($data['dbType'] == 'sqlite') {
-                    $this->_buildSqlite($config, $db);
-                }
-
-                if($data['dbType'] == 'sqlserver2k8') {
-                    $this->_buildSqlServer($config, $db);
-                }
+                $this->_installTables($config, $db);
 
                 $this->_helper->redirector('index', 'index', 'index');
             }
@@ -74,7 +68,12 @@ class Install_IndexController extends Zend_Controller_Action
         return $config;
     }
 
-    protected function _buildSqlite($config, $db)
+    /**
+     * Calls the schema manager and installs the tables
+     * @param Zend_Config $config
+     * @param Zend_Db_Adapter $db
+     */
+    protected function _installTables($config, $db)
     {
         if(is_file($config->resources->db->params->dbname)) {
             unlink($config->resources->db->params->dbname);
@@ -83,27 +82,5 @@ class Install_IndexController extends Zend_Controller_Action
         $base = Tws_SchemaManager::factory($db);
         $base->setNamespace('Manuscript_SchemaManager');
         $base->install();
-    }
-
-    /**
-     *
-     * @param Zend_Config $config
-     * @param Zend_Db_Adapter $db
-     */
-    protected function _buildSqlServer($config, $db)
-    {
-        $conn = $db->getConnection();
-
-        $schemaSql = file_get_contents(APPLICATION_PATH.'/../scripts//schema.sqlserv2008.sql');
-        $schemaViewSql = file_get_contents(APPLICATION_PATH.'/../scripts//schema-new_mimetypes.sqlserv2008.sql');
-        if(!sqlsrv_query($conn, $schemaSql)) {
-            echo "Unable to create tables<br/>";
-            print_r(sqlsrv_errors());
-            die();
-        }
-        sqlsrv_query($conn, $schemaViewSql);
-
-        $dataSql = file_get_contents(APPLICATION_PATH.'/../scripts//data.sqlserv2008.sql');
-        sqlsrv_query($conn, $dataSql);
     }
 }
