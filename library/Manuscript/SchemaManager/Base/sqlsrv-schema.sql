@@ -1,13 +1,13 @@
 CREATE TABLE [dbo].[config] (
     [id] [int] IDENTITY(1,1) NOT NULL,
-    [key] [varchar] (255) NOT NULL,
+    [key_name] [varchar] (255) NOT NULL,
     [value] [varchar] (255) NOT NULL,
     CONSTRAINT [PK_config] PRIMARY KEY CLUSTERED (
         [id] ASC
     ) WITH (
-        PAD_INDEX = OFF, 
-        STATISTICS_NORECOMPUTE = OFF, 
-        IGNORE_DUP_KEY = OFF, 
+        PAD_INDEX = OFF,
+        STATISTICS_NORECOMPUTE = OFF,
+        IGNORE_DUP_KEY = OFF,
         ALLOW_ROW_LOCKS = ON )
     ON [PRIMARY] )
 ON [PRIMARY]

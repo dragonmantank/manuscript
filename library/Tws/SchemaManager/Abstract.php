@@ -13,7 +13,7 @@ abstract class Tws_SchemaManager_Abstract
 
     public function getCurrentVersion()
     {
-        $select = $this->_db->select()->from('config', array('value'))->where('key = ?', 'version');
+        $select = $this->_db->select()->from('config', array('value'))->where('key_name = ?', 'version');
         $result = $this->_db->fetchCol($select);
 
         return $result[0];

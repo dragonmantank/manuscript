@@ -10,7 +10,7 @@ class Sqlsrv extends Tws_SchemaManager_Changeset_Abstract
         $schema = file_get_contents($path.'/sqlsrv-schema.sql');
         $mimetypes = file_get_contents($path.'/sqlsrv-schema-mimetypes.sql');
         $data = file_get_contents($path.'/sqlsrv-data.sql');
-    
+
         if(!sqlsrv_query($conn, $schema)) {
             echo "Unable to create tables";
             print_r(sqlsrv_errors());

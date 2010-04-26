@@ -8,7 +8,7 @@ class Tws_SchemaManager
             case 'Zend_Db_Adapter_Pdo_Sqlite':
                 return new Tws_SchemaManager_Sqlite($db);
                 break;
-            case 'Zend_Db_Adapter_Pdo_Sqlsrv':
+            case 'Zend_Db_Adapter_Sqlsrv':
                 return new Tws_SchemaManager_Sqlsrv($db);
                 break;
             default:
