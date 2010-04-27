@@ -66,11 +66,6 @@ class Admin_UsersController extends Zend_Controller_Action
         $this->view->form   = $form;
     }
 
-    public function init()
-    {
-        $this->_helper->layout->setLayout('admin-layout');
-    }
-
     public function indexAction()
     {
         $users  = new Application_Model_Users();

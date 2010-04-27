@@ -60,11 +60,6 @@ class Admin_TagsController extends Zend_Controller_Action
         $this->view->renameForm = $renameForm;
     }
 
-    public function init()
-    {
-        $this->_helper->layout->setLayout('admin-layout');
-    }
-
     public function renameAction()
     {
         if($this->_request->isPost()) {

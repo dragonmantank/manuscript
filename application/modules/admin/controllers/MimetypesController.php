@@ -2,11 +2,6 @@
 
 class Admin_MimetypesController extends Zend_Controller_Action
 {
-    public function init()
-    {
-        $this->_helper->layout->setLayout('admin-layout');
-    }
-
     public function indexAction()
     {
         $form   = new Admin_Form_AddMimetype();
