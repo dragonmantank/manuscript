@@ -1,0 +1,28 @@
+<h1>Groups</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach($this->list as $group): ?>
+            <tr>
+                <td><?php echo $group->id; ?></td>
+                <td><?php echo $group->name; ?></td>
+                <td>
+                    <a href="<?php echo $this->baseUrl(); ?>/admin/groups/edit/<?php echo $group->id; ?>">Edit</a> :
+                    <a href="<?php echo $this->baseUrl(); ?>/admin/groups/delete/<?php echo $group->id; ?>">Delete</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" align="right"><a href="<?php echo $this->baseUrl(); ?>/admin/groups/add">Add New Group</a></td>
+        </tr>
+    </tfoot>
+</table>

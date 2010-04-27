@@ -4,12 +4,19 @@ class Admin_Form_User extends Zend_Form
 {
     public function init()
     {
+        $groupModel     = new Application_Model_Groups();
+        $groups         = $groupModel->fetchAll();
+        $groupOptions   = array();
+        foreach($groups as $group) {
+            $groupOptions[$group->id] = $group->name;
+        }
+
         $username       = new Zend_Form_Element_Text('username');
         $password       = new Zend_Form_Element_Password('password');
         $confPassword   = new Zend_Form_Element_Password('confPassword');
         $name           = new Zend_Form_Element_Text('name');
         $email          = new Zend_Form_Element_Text('email');
-        $primaryGroup   = new Zend_Form_Element_Text('primaryGroup');
+        $primaryGroup   = new Zend_Form_Element_Select('primaryGroup');
         $submit         = new Zend_Form_Element_Submit('submit');
 
         $username->setLabel('Username:')
@@ -42,6 +49,7 @@ class Admin_Form_User extends Zend_Form
         $primaryGroup->setLabel('Primary Group:')
                      ->setRequired(true)
                      ->addFilters(array('StringTrim', 'StripTags', 'Alnum'))
+                     ->setMultiOptions($groupOptions)
                      ->addValidator('NotEmpty');
 
         $submit->setLabel('Add User');

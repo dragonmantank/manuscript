@@ -49,6 +49,8 @@ class Admin_UsersController extends Zend_Controller_Action
             $data   = $this->_request->getPost();
             if($form->isValid($data)) {
                 try {
+                    $data = $form->getValues();
+                    unset($data['username']);
                     $users->update($form->getValues(), $user->id);
                     $this->_helper->redirector('index');
                 } catch (Exception $e) {
