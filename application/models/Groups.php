@@ -32,6 +32,12 @@ class Application_Model_Groups
     protected $_dbTable;
 
     /**
+     * Backend Permission DB Table
+     * @var Zend_Db_Table_Abstract
+     */
+    protected $_permissionsTable;
+
+    /**
      * Inserts a group into the system
      * 
      * @param array $data
@@ -39,7 +45,10 @@ class Application_Model_Groups
      */
     public function add($data)
     {
-        return $this->getDbTable()->insert($data);
+        $groupId = $this->getDbTable()->insert(array('name' => $data['name']));
+        $this->getPermissionsTable()->associate($groupId, $data['permissions']);
+
+        return $groupId;
     }
 
     /**
@@ -54,6 +63,11 @@ class Application_Model_Groups
     public function fetchAll($where = null, $order = null, $count = null, $offset = null)
     {
         return $this->getDbTable()->fetchAll($where, $order, $count, $offset);
+    }
+
+    public function fetchPermissionsList($id = null)
+    {
+        return $this->getPermissionsTable()->fetchPermissionsList($id);
     }
 
     /**
@@ -90,6 +104,20 @@ class Application_Model_Groups
     }
 
     /**
+     * Sets and returns the backend Permissionstable
+     *
+     * @return Zend_Db_Table_Abstract
+     */
+    public function getPermissionsTable()
+    {
+        if($this->_permissionsTable === null) {
+            $this->setPermissionsTable('Application_Model_DbTable_Permissions');
+        }
+
+        return $this->_permissionsTable;
+    }
+
+    /**
      * Sets the backend table object
      *
      * @param mixed $table
@@ -106,14 +134,34 @@ class Application_Model_Groups
     }
 
     /**
+     * Sets the backend Permissions table object
+     *
+     * @param mixed $table
+     */
+    public function setPermissionsTable($table)
+    {
+        if(is_string($table)) {
+            $this->_permissionsTable = new $table();
+        } elseif($table instanceof Zend_Db_Table_Abstract) {
+            $this->_permissionsTable = $table;
+        } else {
+            throw new Exception('Not a valid table gateway for Groups Permissions Model');
+        }
+    }
+
+    /**
      * Updates information for the specified group
      * 
      * @param array $data
      * @param int $id
      * @return bool
      */
-    public function update($data, $id)
+    public function update($id, $data)
     {
-        throw new Exception('Not implemented yet');
+        $group = $this->Find($id);
+        $group->name = $data['name'];
+        $group->save();
+
+        $this->getPermissionsTable()->associate($id, $data['permissions']);
     }
 }

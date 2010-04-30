@@ -14,8 +14,8 @@
                 <td><?php echo $group->id; ?></td>
                 <td><?php echo $group->name; ?></td>
                 <td>
-                    <a href="<?php echo $this->baseUrl(); ?>/admin/groups/edit/<?php echo $group->id; ?>">Edit</a> :
-                    <a href="<?php echo $this->baseUrl(); ?>/admin/groups/delete/<?php echo $group->id; ?>">Delete</a>
+                    <a href="<?php echo $this->baseUrl(); ?>/admin/groups/edit/id/<?php echo $group->id; ?>">Edit</a> :
+                    <a href="<?php echo $this->baseUrl(); ?>/admin/groups/delete/id/<?php echo $group->id; ?>">Delete</a>
                 </td>
             </tr>
         <?php endforeach; ?>

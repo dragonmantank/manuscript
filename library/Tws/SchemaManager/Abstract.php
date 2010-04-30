@@ -44,6 +44,8 @@ abstract class Tws_SchemaManager_Abstract
         $class = $this->getDriver();
         $installer = new $class($this->_db);
         $installer->upgrade();
+
+        $this->upgrade();
     }
 
     public function setNamespace($namespace)
